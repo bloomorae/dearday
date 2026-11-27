@@ -1,0 +1,627 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self-care Journal ♡ | Dear Day</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
+
+:root {
+  --pink: #edb9cd;
+  --pink-light: #fff0f5;
+  --lavender: #e9e2fa;
+  --purple: #9985c4;
+  --cream: #fffaf7;
+  --text: #51475b;
+  --muted: #988c9e;
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--cream);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  padding: 25px 16px 60px;
+}
+
+.container {
+  max-width: 850px;
+  margin: auto;
+}
+
+header {
+  text-align: center;
+  padding: 25px 10px 35px;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--purple);
+  margin-bottom: 38px;
+}
+
+.eyebrow {
+  color: #c58ba8;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 13px;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(38px, 7vw, 55px);
+  font-weight: 500;
+  color: #8e79b6;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 12px;
+  line-height: 1.8;
+}
+
+.date {
+  display: inline-block;
+  background: white;
+  border: 1px solid #f3e5ee;
+  padding: 9px 18px;
+  border-radius: 30px;
+  margin-top: 20px;
+  color: #b77d9c;
+  font-size: 12px;
+}
+
+.intro {
+  background: linear-gradient(120deg, #fceaf2, #eee9fc);
+  border-radius: 22px;
+  padding: 25px;
+  margin-bottom: 35px;
+  text-align: center;
+  line-height: 1.8;
+  font-size: 14px;
+}
+
+.section-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 25px;
+  font-weight: 500;
+  margin-bottom: 19px;
+  color: #927cb9;
+}
+
+.question-card {
+  background: white;
+  border: 1px solid #f1e8ef;
+  border-radius: 18px;
+  padding: 23px;
+  margin-bottom: 16px;
+  box-shadow: 0 5px 20px rgba(151, 120, 151, .045);
+  transition: border .2s;
+}
+
+.question-card:focus-within {
+  border-color: #d6c5eb;
+}
+
+.question-number {
+  font-size: 11px;
+  color: #c58ba8;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.question-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 19px;
+  font-weight: 500;
+  margin-bottom: 9px;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+textarea {
+  width: 100%;
+  min-height: 105px;
+  resize: vertical;
+  border: 1px solid #f0e8ef;
+  border-radius: 12px;
+  padding: 14px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  background: #fffafd;
+  line-height: 1.7;
+}
+
+textarea:focus {
+  border-color: #cbb9e5;
+}
+
+textarea::placeholder {
+  color: #c2b8c6;
+}
+
+.extra-section {
+  background: white;
+  border: 1px solid #f1e8ef;
+  border-radius: 20px;
+  padding: 25px;
+  margin-top: 35px;
+}
+
+.checklist {
+  display: grid;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.check-item input {
+  accent-color: #b69bce;
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 24px;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #f5edf5;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #e8b9d0, #bca9df);
+  border-radius: 20px;
+  transition: width .3s;
+}
+
+.reminder {
+  margin-top: 20px;
+  background: linear-gradient(120deg, #fcecf4, #f0eafd);
+  padding: 27px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.reminder h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: #997db5;
+  margin-bottom: 12px;
+}
+
+.reminder p {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  line-height: 1.8;
+  font-style: italic;
+}
+
+.save-area {
+  text-align: center;
+  margin: 35px 0;
+}
+
+.save-btn {
+  background: #a58fc7;
+  color: white;
+  border: none;
+  padding: 15px 32px;
+  border-radius: 30px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.save-btn:hover {
+  background: #8f79b5;
+  transform: translateY(-2px);
+}
+
+.save-note {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 12px;
+}
+
+.entries {
+  margin-top: 45px;
+}
+
+.entry {
+  background: white;
+  padding: 18px;
+  border-radius: 15px;
+  margin-bottom: 12px;
+  border: 1px solid #f1e8ef;
+}
+
+.entry-date {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+
+.entry-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 13px;
+}
+
+.entry-actions button {
+  border: none;
+  background: #f5effa;
+  color: #8f79b5;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.entry-actions .delete {
+  background: #fff0f4;
+  color: #c17d98;
+}
+
+.empty {
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+  padding: 20px;
+}
+
+footer {
+  text-align: center;
+  color: #b09eae;
+  font-size: 12px;
+  margin-top: 55px;
+  line-height: 2;
+}
+
+@media(max-width: 550px) {
+  body { padding: 15px 12px 45px; }
+  .question-card, .extra-section { padding: 19px; }
+  .intro { padding: 20px; }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+  <div class="logo">Dear Day ♡</div>
+  <div class="eyebrow">A little time for yourself</div>
+  <h1>Self-care Journal</h1>
+  <p class="subtitle">
+    Slow down, check in with yourself, and give yourself<br>
+    the kindness you deserve.
+  </p>
+  <div class="date" id="today"></div>
+</header>
+
+<div class="intro">
+  ♡ You don't have to have everything figured out.
+  <br>
+  This is your little space to pause, reflect and understand
+  what you need. Be honest, be gentle, and take your time.
+</div>
+
+<form id="journalForm">
+
+<h2 class="section-heading">♡ Let's check in with ourselves</h2>
+
+<div id="questions"></div>
+
+<section class="extra-section">
+  <h2 class="section-heading">♡ Today's self-care check-in</h2>
+  <p class="hint">Little things count. Tick anything you've done today.</p>
+
+  <div class="checklist" id="checklist">
+    <label class="check-item">
+      <input type="checkbox"> I drank enough water
+    </label>
+    <label class="check-item">
+      <input type="checkbox"> I took a little break
+    </label>
+    <label class="check-item">
+      <input type="checkbox"> I spent time doing something I enjoy
+    </label>
+    <label class="check-item">
+      <input type="checkbox"> I gave myself time to relax
+    </label>
+    <label class="check-item">
+      <input type="checkbox"> I spoke kindly to myself
+    </label>
+    <label class="check-item">
+      <input type="checkbox"> I did something that made me happy
+    </label>
+  </div>
+
+  <div class="progress-label">
+    <span>My little self-care progress ♡</span>
+    <span id="progressText">0 of 6 completed</span>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+</section>
+
+<section class="reminder">
+  <h3>♡ A little reminder</h3>
+  <p>
+    "Taking care of yourself isn't selfish.
+    You deserve the same kindness you give to others."
+  </p>
+</section>
+
+<div class="save-area">
+  <button type="submit" class="save-btn">
+    ♡ Save My Self-care Page
+  </button>
+  <p class="save-note">Your entries are saved in this browser.</p>
+</div>
+
+</form>
+
+<section class="entries">
+  <h2 class="section-heading">♡ Previous entries</h2>
+  <div id="entriesList">
+    <p class="empty">Your little memories will appear here ♡</p>
+  </div>
+</section>
+
+<footer>
+  Made with love, just for you ♡
+  <br>
+  Dear Day · A little reminder to care for yourself.
+</footer>
+
+</div>
+
+<script>
+const questions = [
+  {
+    title: "How am I really feeling today?",
+    hint: "Describe your feelings without judging them."
+  },
+  {
+    title: "What does my mind and body need from me today?",
+    hint: "Maybe rest, movement, quiet time, or a little fun."
+  },
+  {
+    title: "What has been making me feel overwhelmed lately?",
+    hint: "What could make it feel a little easier?"
+  },
+  {
+    title: "What is one thing I can do today just for myself?",
+    hint: "It can be something small and simple."
+  },
+  {
+    title: "Have I been giving myself enough time to rest and recharge?",
+    hint: "What could I do differently?"
+  },
+  {
+    title: "What is something I need to stop being so hard on myself about?",
+    hint: "Give yourself a little understanding."
+  },
+  {
+    title: "What promise of kindness can I make to myself today?",
+    hint: "A little promise you can carry with you."
+  }
+];
+
+const questionContainer = document.getElementById("questions");
+
+questions.forEach((q, i) => {
+  questionContainer.innerHTML += `
+    <div class="question-card">
+      <div class="question-number">QUESTION 0${i + 1}</div>
+      <h3>${q.title}</h3>
+      <p class="hint">${q.hint}</p>
+      <textarea id="answer${i}" placeholder="Write your thoughts here..."></textarea>
+    </div>
+  `;
+});
+
+document.getElementById("today").textContent =
+  new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric"
+  });
+
+const checkboxes = [...document.querySelectorAll(
+  "#checklist input"
+)];
+
+function updateProgress() {
+  const completed = checkboxes.filter(c => c.checked).length;
+  document.getElementById("progressText").textContent =
+    `${completed} of 6 completed`;
+  document.getElementById("progressFill").style.width =
+    `${completed / 6 * 100}%`;
+}
+
+checkboxes.forEach(c =>
+  c.addEventListener("change", updateProgress)
+);
+
+function getEntries() {
+  return JSON.parse(
+    localStorage.getItem("dearDaySelfCare") || "[]"
+  );
+}
+
+let editingId = null;
+
+document.getElementById("journalForm").addEventListener(
+  "submit", function(e) {
+    e.preventDefault();
+
+    const answers = questions.map((q, i) =>
+      document.getElementById(`answer${i}`).value
+    );
+
+    const checks = checkboxes.map(c => c.checked);
+
+    const entries = getEntries();
+
+    if (editingId !== null) {
+      const index = entries.findIndex(
+        entry => entry.id === editingId
+      );
+
+      if (index !== -1) {
+        entries[index].answers = answers;
+        entries[index].checks = checks;
+      }
+    } else {
+      entries.unshift({
+        id: Date.now(),
+        date: new Date().toISOString(),
+        answers,
+        checks
+      });
+    }
+
+    localStorage.setItem(
+      "dearDaySelfCare",
+      JSON.stringify(entries)
+    );
+
+    editingId = null;
+    this.reset();
+    updateProgress();
+    renderEntries();
+
+    document.querySelector(".save-note").textContent =
+      "Your self-care entry has been saved ♡";
+
+    document.querySelector(".save-area").scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+  }
+);
+
+function renderEntries() {
+  const entries = getEntries();
+  const list = document.getElementById("entriesList");
+
+  if (!entries.length) {
+    list.innerHTML =
+      '<p class="empty">Your little memories will appear here ♡</p>';
+    return;
+  }
+
+  list.innerHTML = entries.map(entry => {
+    const date = new Date(entry.date).toLocaleDateString(
+      "en-US",
+      { month: "long", day: "numeric", year: "numeric" }
+    );
+
+    return `
+      <div class="entry">
+        <div class="entry-date">♡ ${date}</div>
+        <p style="font-size:12px;color:#988c9e">
+          ${entry.answers.filter(a => a.trim()).length}
+          of 7 questions answered
+        </p>
+        <div class="entry-actions">
+          <button onclick="editEntry(${entry.id})">Edit entry</button>
+          <button class="delete" onclick="deleteEntry(${entry.id})">
+            Delete
+          </button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function editEntry(id) {
+  const entry = getEntries().find(e => e.id === id);
+  if (!entry) return;
+
+  editingId = id;
+
+  entry.answers.forEach((answer, i) => {
+    document.getElementById(`answer${i}`).value = answer;
+  });
+
+  entry.checks.forEach((checked, i) => {
+    checkboxes[i].checked = checked;
+  });
+
+  updateProgress();
+
+  document.querySelector(".save-btn").textContent =
+    "♡ Update My Entry";
+
+  document.getElementById("journalForm").scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+function deleteEntry(id) {
+  if (!confirm("Delete this journal entry?")) return;
+
+  const entries = getEntries().filter(e => e.id !== id);
+
+  localStorage.setItem(
+    "dearDaySelfCare",
+    JSON.stringify(entries)
+  );
+
+  renderEntries();
+}
+
+renderEntries();
+updateProgress();
+</script>
+
+</body>
+</html>

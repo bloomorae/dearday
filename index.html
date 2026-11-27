@@ -1,0 +1,1550 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fff5f8">
+<title>Dear Day ♡</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --background:#fff5f8;
+  --surface:#ffffff;
+  --surface-soft:#fde8f0;
+  --surface-alt:#fff0f5;
+  --accent:#e98cae;
+  --accent-dark:#bd557d;
+  --text:#49343e;
+  --muted:#806c75;
+  --border:#f0dce4;
+  --shadow:0 8px 28px rgba(80,40,60,.08);
+  --heading:"Cormorant Garamond",serif;
+  --body:"Quicksand",sans-serif;
+  --hand:"Caveat",cursive;
+}
+
+* {box-sizing:border-box}
+html {scroll-behavior:smooth}
+body {
+  margin:0;
+  background:var(--background);
+  color:var(--text);
+  font-family:var(--body);
+  transition:background .25s,color .25s;
+}
+button,input,textarea,select {font:inherit}
+button {cursor:pointer}
+a {text-decoration:none;color:inherit}
+
+/* SIDEBAR */
+
+.sidebar {
+  width:240px;
+  height:100vh;
+  position:fixed;
+  left:0;
+  top:0;
+  z-index:30;
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  padding:25px 22px;
+  display:flex;
+  flex-direction:column;
+  transition:transform .28s ease,background .25s;
+}
+.sidebar.closed {transform:translateX(-105%)}
+.sidebar-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.logo {
+  font-family:var(--hand);
+  font-size:38px;
+  font-weight:700;
+  color:var(--accent-dark);
+}
+.logo span {color:var(--accent)}
+.sidebar-close {
+  border:0;
+  background:var(--surface-soft);
+  color:var(--text);
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  font-size:20px;
+}
+.sidebar-note {
+  background:var(--surface-soft);
+  padding:18px;
+  border-radius:16px;
+  margin-top:42px;
+  font-size:13px;
+  line-height:1.8;
+  color:var(--muted);
+}
+.sidebar-note strong {
+  display:block;
+  font-size:25px;
+  margin-bottom:5px;
+  color:var(--accent-dark);
+}
+.sidebar-menu {margin-top:auto}
+.sidebar-menu button {
+  width:100%;
+  display:block;
+  text-align:left;
+  border:0;
+  background:transparent;
+  padding:14px 12px;
+  border-radius:12px;
+  color:var(--text);
+  font-size:14px;
+  margin:5px 0;
+}
+.sidebar-menu button:hover {
+  background:var(--surface-soft);
+  color:var(--accent-dark);
+}
+.sidebar-menu button span {
+  margin-right:12px;
+  color:var(--accent-dark);
+}
+.sidebar-footer {
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  margin-top:25px;
+}
+
+/* SIDEBAR TOGGLE */
+
+.menu-toggle {
+  display:inline-grid;
+  place-items:center;
+  width:40px;
+  height:40px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--surface);
+  color:var(--accent-dark);
+  font-size:20px;
+  flex-shrink:0;
+}
+.sidebar-overlay {
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:25;
+  background:rgba(30,20,30,.25);
+}
+.sidebar-overlay.show {display:block}
+
+/* MAIN */
+
+.main {
+  margin-left:240px;
+  padding:0 45px;
+  max-width:1600px;
+  transition:margin-left .28s ease;
+}
+.main.expanded {margin-left:0}
+.topbar {
+  height:65px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+.topbar small {
+  letter-spacing:2px;
+  font-size:10px;
+  color:var(--muted);
+  font-weight:700;
+}
+.topbar .heart {
+  font-size:25px;
+  color:var(--accent-dark);
+}
+
+/* WELCOME */
+
+.welcome {
+  padding:40px 0 28px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+.eyebrow {
+  font-size:10px;
+  letter-spacing:1.8px;
+  font-weight:700;
+  color:var(--muted);
+}
+.welcome h1 {
+  font-family:var(--heading);
+  font-size:clamp(40px,4vw,57px);
+  margin:9px 0;
+  font-weight:600;
+}
+.welcome h1 span {color:var(--accent)}
+.welcome p {
+  color:var(--muted);
+  font-size:15px;
+  margin:0;
+}
+.date-pill {
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:14px 19px;
+  border-radius:30px;
+  color:var(--accent-dark);
+  font-size:13px;
+  white-space:nowrap;
+  box-shadow:var(--shadow);
+}
+
+/* QUOTE */
+
+.quote-banner {
+  min-height:145px;
+  border-radius:25px;
+  padding:27px 33px;
+  background:linear-gradient(115deg,var(--surface-soft),var(--surface-alt),var(--surface-soft));
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  overflow:hidden;
+}
+.quote-banner h2 {
+  font-family:var(--hand);
+  font-size:clamp(29px,3vw,39px);
+  margin:10px 0;
+  font-weight:700;
+  color:var(--text);
+}
+.quote-banner p {
+  font-size:14px;
+  color:var(--muted);
+}
+.quote-flower {
+  font-size:90px;
+  color:var(--accent);
+  opacity:.45;
+}
+
+/* SECTION HEADINGS */
+
+.section-title {
+  margin:40px 0 18px;
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+}
+.section-title h2 {
+  font-family:var(--heading);
+  font-size:34px;
+  margin:5px 0;
+  font-weight:600;
+}
+.section-title small {
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* BENTO GRID */
+
+.dashboard {
+  display:grid;
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  gap:17px;
+  align-items:stretch;
+}
+.card {
+  min-width:0;
+  padding:22px;
+  border-radius:22px;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  transition:transform .2s,box-shadow .2s,background .25s;
+  background:var(--surface);
+  color:var(--text);
+}
+.card:hover {
+  transform:translateY(-2px);
+  box-shadow:0 12px 30px rgba(50,30,50,.10);
+}
+.card-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:18px;
+}
+.card-head h3 {
+  font-family:var(--heading);
+  font-size:26px;
+  font-weight:600;
+  margin:5px 0;
+  color:var(--text);
+}
+.kicker {
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:1.5px;
+  font-weight:700;
+}
+.open-link {
+  color:var(--accent-dark);
+  font-size:12px;
+  white-space:nowrap;
+  padding:5px;
+}
+.open-link:hover {text-decoration:underline}
+.note {
+  font-size:13px;
+  color:var(--muted);
+  margin-top:13px;
+}
+
+/* CARD SIZES */
+
+.calendar-card {grid-column:span 7;min-height:380px}
+.todo-card {grid-column:span 5;min-height:380px}
+.mood-card {grid-column:span 4;min-height:190px}
+.reminder-card {grid-column:span 4;min-height:250px}
+.habit-card {grid-column:span 4;min-height:250px}
+.exam-card {grid-column:span 5;min-height:250px}
+.diary-card {grid-column:span 7;min-height:260px}
+.gratitude-card {grid-column:span 4;min-height:220px}
+.selfcare-card {grid-column:span 4;min-height:220px}
+.vision-card {grid-column:span 4;min-height:280px}
+.bucket-card {grid-column:span 6;min-height:250px}
+.affirmation-card {grid-column:span 6;min-height:250px}
+
+/* CLICKABLE FEATURE CARDS */
+
+.feature-link {
+  display:block;
+  color:inherit;
+  cursor:pointer;
+}
+.feature-link:hover {
+  transform:translateY(-4px);
+}
+.feature-link:focus-visible {
+  outline:3px solid var(--accent-dark);
+  outline-offset:4px;
+}
+
+/* CALENDAR */
+
+.calendar-controls {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:14px;
+}
+.calendar-controls button {
+  width:32px;
+  height:32px;
+  border:0;
+  background:var(--surface-soft);
+  border-radius:50%;
+  color:var(--accent-dark);
+  font-size:22px;
+}
+.calendar-controls strong {
+  font-size:15px;
+  color:var(--accent-dark);
+}
+.calendar-grid {
+  display:grid;
+  grid-template-columns:repeat(7,minmax(0,1fr));
+  gap:5px;
+  text-align:center;
+}
+.calendar-day,.calendar-date {
+  min-height:36px;
+  display:grid;
+  place-items:center;
+  font-size:13px;
+  border-radius:9px;
+}
+.calendar-day {color:var(--muted);font-weight:700}
+.calendar-date {
+  border:0;
+  color:var(--text);
+  background:var(--surface-soft);
+}
+.calendar-date.today {
+  background:var(--accent-dark);
+  color:#fff;
+}
+.calendar-date.selected {outline:2px solid var(--accent)}
+.calendar-date:hover:not(.empty) {background:var(--surface-alt)}
+.calendar-date.empty {background:transparent}
+
+/* INPUTS */
+
+.add-form {display:flex;gap:8px;margin-bottom:13px}
+.add-form input,.stack-form input,.date-input,.line-input {
+  width:100%;
+  min-width:0;
+  padding:12px 13px;
+  border:1px solid var(--border);
+  background:var(--surface);
+  border-radius:10px;
+  outline:none;
+  color:var(--text);
+  font-size:14px;
+}
+.add-form input:focus,.stack-form input:focus,
+textarea:focus,.date-input:focus,.line-input:focus {
+  border-color:var(--accent);
+  outline:2px solid color-mix(in srgb,var(--accent) 20%,transparent);
+}
+.add-form button {
+  flex-shrink:0;
+  width:42px;
+  border:0;
+  background:var(--accent-dark);
+  color:#fff;
+  border-radius:10px;
+  font-size:23px;
+}
+.soft-button {
+  border:0;
+  border-radius:10px;
+  background:var(--surface-soft);
+  color:var(--accent-dark);
+  padding:11px 15px;
+  font-size:13px;
+  font-weight:700;
+}
+.soft-button:hover {filter:brightness(.97)}
+
+/* TASKS */
+
+.task-list,.simple-list {display:flex;flex-direction:column;gap:9px}
+.task-row {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:11px;
+  border-radius:10px;
+  background:var(--surface-soft);
+  color:var(--text);
+  font-size:14px;
+  min-width:0;
+}
+.task-row span {flex:1;overflow-wrap:anywhere}
+.task-row input {accent-color:var(--accent-dark);width:16px;height:16px}
+.task-row.done span {opacity:.5;text-decoration:line-through}
+.delete-button {
+  border:0;
+  background:none;
+  color:var(--accent-dark);
+  font-size:20px;
+}
+
+/* MOOD */
+
+.mood-options {
+  display:flex;
+  justify-content:space-between;
+  gap:6px;
+  margin-top:18px;
+}
+.mood-options button {
+  width:42px;
+  height:42px;
+  border:1px solid var(--border);
+  background:var(--surface);
+  border-radius:12px;
+  font-size:21px;
+}
+.mood-options button.active {
+  border-color:var(--accent-dark);
+  transform:translateY(-3px);
+}
+.mood-result {font-size:13px;color:var(--accent-dark);margin-top:12px}
+
+/* REMINDERS */
+
+.stack-form {display:grid;gap:8px}
+.reminder-row {
+  display:flex;
+  justify-content:space-between;
+  gap:7px;
+  padding:11px;
+  background:var(--surface-soft);
+  color:var(--text);
+  border-radius:9px;
+  font-size:13px;
+  overflow-wrap:anywhere;
+}
+
+/* HABITS */
+
+.habit-list {display:grid;gap:13px;margin-bottom:14px}
+.habit-row {display:flex;align-items:center;gap:9px;font-size:14px}
+.habit-row input {accent-color:var(--accent-dark);width:16px;height:16px}
+.habit-row span {flex:1}
+.habit-row.done span {text-decoration:line-through;opacity:.5}
+
+/* EXAM */
+
+.countdown {
+  display:flex;
+  align-items:baseline;
+  gap:9px;
+  margin:14px 0 5px;
+  color:var(--accent-dark);
+}
+.countdown strong {font-family:var(--heading);font-size:50px}
+
+/* DIARY */
+
+textarea {
+  width:100%;
+  padding:13px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--surface);
+  outline:none;
+  color:var(--text);
+  font-size:14px;
+  line-height:1.8;
+  resize:vertical;
+}
+.diary-card textarea {min-height:125px}
+.save-status {
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  color:var(--muted);
+  margin-top:9px;
+}
+
+/* GRATITUDE AND SELF CARE FEATURE CARDS */
+
+.journal-art {
+  min-height:125px;
+  border-radius:17px;
+  background:var(--surface-soft);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:16px;
+  position:relative;
+  overflow:hidden;
+}
+.journal-art .journal-icon {
+  font-size:34px;
+  margin-bottom:7px;
+}
+.journal-art .journal-script {
+  font-family:var(--hand);
+  font-size:31px;
+  font-weight:700;
+  color:var(--accent-dark);
+  line-height:1;
+}
+.journal-art .journal-caption {
+  font-size:12px;
+  color:var(--muted);
+  margin-top:8px;
+}
+.journal-art .decor {
+  position:absolute;
+  font-size:22px;
+  opacity:.5;
+}
+.journal-art .decor.one {top:10px;left:15px}
+.journal-art .decor.two {bottom:8px;right:15px}
+
+/* VISION BOARD */
+
+.vision-preview {
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  grid-template-rows:80px 80px;
+  gap:7px;
+}
+.vision-tile {
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  color:var(--text);
+  font-family:var(--heading);
+  font-size:15px;
+  background:var(--surface-soft);
+}
+.v1 {grid-row:span 2;background:var(--surface-alt);font-size:22px}
+.v2 {font-size:30px}
+.v3 {font-size:12px}
+.v4 {
+  grid-column:span 2;
+  background:var(--surface-soft);
+  font-family:var(--body);
+  letter-spacing:2px;
+}
+
+/* AFFIRMATIONS */
+
+.affirmation-message {
+  background:var(--surface-soft);
+  color:var(--text);
+  padding:22px;
+  border-radius:14px;
+  min-height:100px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  font-family:var(--heading);
+  font-size:23px;
+  margin-bottom:12px;
+}
+
+/* FOOTER */
+
+footer {
+  text-align:center;
+  padding:45px 0 30px;
+  color:var(--accent-dark);
+  font-family:var(--hand);
+  font-size:30px;
+}
+footer p {
+  font-family:var(--body);
+  font-size:12px;
+  color:var(--muted);
+}
+
+/* MODALS */
+
+.modal {
+  position:fixed;
+  inset:0;
+  background:rgba(35,25,35,.4);
+  z-index:50;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  padding:18px;
+}
+.modal.show {display:flex}
+.modal-box {
+  position:relative;
+  width:min(100%,470px);
+  max-height:90vh;
+  overflow:auto;
+  background:var(--surface);
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:23px;
+  padding:30px;
+  box-shadow:0 20px 70px rgba(0,0,0,.15);
+}
+.modal-box h2 {
+  font-family:var(--heading);
+  font-size:32px;
+}
+.modal-box h3 {font-size:14px;margin-top:23px}
+.modal-box p {color:var(--muted);font-size:13px;line-height:1.7}
+.close-modal {
+  position:absolute;
+  right:17px;
+  top:12px;
+  border:0;
+  background:none;
+  font-size:25px;
+  color:var(--accent-dark);
+}
+.theme-options {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:9px;
+}
+.theme-options button {
+  padding:10px 5px;
+  border:2px solid transparent;
+  border-radius:11px;
+  color:#30252a;
+  font-size:11px;
+}
+.theme-options button.selected {border-color:var(--text)}
+.theme-dot {
+  display:block;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  margin:0 auto 6px;
+}
+.mode-options {display:flex;gap:9px}
+.mode-options button {
+  flex:1;
+  padding:13px 5px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:var(--surface-soft);
+  color:var(--text);
+}
+.mode-options button.selected {
+  border:2px solid var(--accent-dark);
+}
+
+/* DARK MODE */
+
+body.dark {
+  --background:#19171d;
+  --surface:#27232c;
+  --surface-soft:#39303d;
+  --surface-alt:#332a37;
+  --text:#f4edf3;
+  --muted:#c0b2bf;
+  --border:#49404d;
+  --shadow:0 8px 28px rgba(0,0,0,.2);
+}
+body.dark .date-pill,
+body.dark .card,
+body.dark .sidebar,
+body.dark .modal-box {
+  background:var(--surface);
+  color:var(--text);
+}
+body.dark .card-head h3,
+body.dark .section-title h2,
+body.dark .welcome h1,
+body.dark .quote-banner h2 {
+  color:var(--text);
+}
+body.dark .quote-banner {
+  background:linear-gradient(115deg,#39303d,#302a37,#39303d);
+}
+body.dark .task-row,
+body.dark .reminder-row,
+body.dark .affirmation-message,
+body.dark .vision-tile,
+body.dark .journal-art {
+  background:var(--surface-soft);
+  color:var(--text);
+}
+body.dark input,
+body.dark textarea,
+body.dark select {
+  background:#302a35;
+  color:var(--text);
+  border-color:var(--border);
+}
+body.dark .calendar-date,
+body.dark .mood-options button {
+  background:var(--surface-soft);
+  color:var(--text);
+}
+body.dark .calendar-date.today {
+  background:var(--accent-dark);
+  color:white;
+}
+body.dark .soft-button,
+body.dark .calendar-controls button {
+  background:var(--surface-soft);
+  color:var(--text);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px) {
+  .main {padding:0 25px}
+  .calendar-card,.todo-card,.exam-card,.diary-card {grid-column:span 6}
+  .mood-card,.reminder-card,.habit-card,
+  .gratitude-card,.selfcare-card,.vision-card {grid-column:span 4}
+}
+@media(max-width:760px) {
+  .sidebar {transform:translateX(-105%)}
+  .sidebar.open {transform:translateX(0)}
+  .main,.main.expanded {margin-left:0;padding:0 16px}
+  .welcome {
+    flex-direction:column;
+    align-items:flex-start;
+    padding:28px 0;
+  }
+  .quote-banner {padding:22px}
+  .quote-flower {font-size:55px}
+  .section-title {
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+  }
+  .dashboard {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:11px;
+  }
+  .card {
+    grid-column:span 1 !important;
+    padding:15px;
+    min-height:0;
+  }
+  .calendar-card,.todo-card,.diary-card,
+  .bucket-card,.affirmation-card {grid-column:span 2 !important}
+  .calendar-card {min-height:330px}
+  .card-head h3 {font-size:22px}
+  .mood-options button {
+    width:33px;
+    height:34px;
+    font-size:16px;
+  }
+}
+@media(max-width:390px) {
+  .dashboard {grid-template-columns:1fr}
+  .card,.calendar-card,.todo-card,.diary-card,
+  .bucket-card,.affirmation-card {grid-column:span 1 !important}
+  .theme-options {grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-top">
+    <a class="logo" href="index.html">dear day<span>.</span></a>
+    <button class="sidebar-close" id="sidebarClose" aria-label="Close sidebar">×</button>
+  </div>
+
+  <div class="sidebar-note">
+    <strong>♡</strong>
+    a little space for your big dreams
+  </div>
+
+  <div class="sidebar-menu">
+    <button onclick="openModal('customModal')"><span>✧</span> Customisation</button>
+    <p class="sidebar-footer">made with love ♡</p>
+  </div>
+</aside>
+
+<main class="main" id="main">
+  <header class="topbar">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open or close sidebar">☰</button>
+    <small>YOUR PERSONAL LITTLE CORNER</small>
+    <span class="heart">♡</span>
+  </header>
+
+  <section class="welcome">
+    <div>
+      <div class="eyebrow" id="greeting">A FRESH NEW DAY</div>
+      <h1>Hello, sunshine <span>♡</span></h1>
+      <p>Take a breath. You've got this.</p>
+    </div>
+    <div class="date-pill" id="todayDate"></div>
+  </section>
+
+  <section class="quote-banner">
+    <div>
+      <div class="eyebrow">A LITTLE REMINDER</div>
+      <h2>You're allowed to grow at your own pace.</h2>
+      <p>Little steps are still progress. ♡</p>
+    </div>
+    <div class="quote-flower">✿</div>
+  </section>
+
+  <section class="section-title">
+    <div>
+      <div class="eyebrow">YOUR SPACE</div>
+      <h2>Your lovely dashboard</h2>
+    </div>
+    <small>♡ Your little world, all in one place</small>
+  </section>
+
+  <div class="dashboard">
+
+    <section class="card calendar-card" id="calendar">
+      <div class="card-head">
+        <div><div class="kicker">LET'S PLAN AHEAD</div><h3>Monthly Calendar</h3></div>
+      </div>
+      <div class="calendar-controls">
+        <button id="prevMonth">‹</button>
+        <strong id="monthTitle"></strong>
+        <button id="nextMonth">›</button>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+      <p class="note">A new month, a fresh little beginning ♡</p>
+    </section>
+
+    <section class="card todo-card">
+      <div class="card-head">
+        <div><div class="kicker">ONE THING AT A TIME</div><h3>My To-do List</h3></div>
+      </div>
+      <form class="add-form" id="todoForm">
+        <input id="todoInput" placeholder="Add a little task..." maxlength="100" required>
+        <button type="submit">+</button>
+      </form>
+      <div class="task-list" id="todoList"></div>
+      <p class="note" id="todoCount"></p>
+    </section>
+
+    <section class="card mood-card">
+      <div class="card-head">
+        <div><div class="kicker">CHECK IN WITH YOU</div><h3>Today's Mood</h3></div>
+      </div>
+      <p class="note">How are you feeling today?</p>
+      <div class="mood-options">
+        <button data-mood="Happy">😊</button>
+        <button data-mood="Calm">😌</button>
+        <button data-mood="Okay">😐</button>
+        <button data-mood="Tired">😴</button>
+        <button data-mood="Stressed">😣</button>
+      </div>
+      <p class="mood-result" id="moodResult">Every feeling is welcome here.</p>
+    </section>
+
+    <section class="card reminder-card">
+      <div class="card-head">
+        <div><div class="kicker">DON'T FORGET</div><h3>Reminders</h3></div>
+      </div>
+      <form id="reminderForm" class="stack-form">
+        <input id="reminderInput" placeholder="What should you remember?" maxlength="100" required>
+        <input id="reminderDate" type="date">
+        <button class="soft-button" type="submit">Add reminder +</button>
+      </form>
+      <div class="simple-list" id="reminderList"></div>
+    </section>
+
+    <section class="card habit-card">
+      <div class="card-head">
+        <div><div class="kicker">TINY DAILY WINS</div><h3>Habit Tracker</h3></div>
+      </div>
+      <div class="habit-list" id="habitList"></div>
+      <form class="add-form" id="habitForm">
+        <input id="habitInput" placeholder="Add a habit..." maxlength="60">
+        <button type="submit">+</button>
+      </form>
+    </section>
+
+    <section class="card exam-card">
+      <div class="card-head">
+        <div><div class="kicker">YOU'VE GOT THIS</div><h3>Exam Countdown</h3></div>
+      </div>
+      <input id="examName" class="line-input" placeholder="Name your exam">
+      <input id="examDate" type="date" class="date-input">
+      <div class="countdown">
+        <strong id="countdownNumber">—</strong>
+        <span id="countdownText">days to go</span>
+      </div>
+      <button class="soft-button" id="saveExam">Save exam date</button>
+    </section>
+
+    <section class="card diary-card">
+      <div class="card-head">
+        <div><div class="kicker">DEAR DIARY</div><h3>A Page For Your Thoughts</h3></div>
+      </div>
+      <textarea id="diaryEntry" placeholder="Today, I want to remember..." rows="5"></textarea>
+      <div class="save-status"><span id="diaryStatus">Your thoughts stay in this browser.</span><span>♡</span></div>
+    </section>
+
+    <a href="gratitude.html" class="card gratitude-card feature-link">
+      <div class="card-head">
+        <div><div class="kicker">NOTICE THE GOOD</div><h3>Gratitude Journal</h3></div>
+        <span class="open-link">Open ↗</span>
+      </div>
+      <div class="journal-art">
+        <span class="decor one">✿</span>
+        <span class="journal-icon">🌷</span>
+        <span class="journal-script">little things, big joy</span>
+        <span class="journal-caption">A place to notice life's lovely moments</span>
+        <span class="decor two">♡</span>
+      </div>
+      <p class="note">Collect the little things that make life sweet.</p>
+    </a>
+
+    <a href="selfcare.html" class="card selfcare-card feature-link">
+      <div class="card-head">
+        <div><div class="kicker">A MOMENT FOR YOU</div><h3>Self-care Journal</h3></div>
+        <span class="open-link">Open ↗</span>
+      </div>
+      <div class="journal-art">
+        <span class="decor one">♡</span>
+        <span class="journal-icon">🕯️</span>
+        <span class="journal-script">you time</span>
+        <span class="journal-caption">Slow down, breathe, and be kind to yourself</span>
+        <span class="decor two">✧</span>
+      </div>
+      <p class="note">A little space to put yourself first.</p>
+    </a>
+
+    <a href="visionboard.html" class="card vision-card feature-link">
+      <div class="card-head">
+        <div><div class="kicker">DREAM A LITTLE BIGGER</div><h3>My Vision Board</h3></div>
+        <span class="open-link">Create ↗</span>
+      </div>
+      <div class="vision-preview">
+        <div class="vision-tile v1">dream<br>big ♡</div>
+        <div class="vision-tile v2">✿</div>
+        <div class="vision-tile v3">little steps<br>every day</div>
+        <div class="vision-tile v4">YOUR FUTURE</div>
+      </div>
+      <p class="note">Your dreams deserve a place to grow.</p>
+    </a>
+
+    <section class="card bucket-card">
+      <div class="card-head">
+        <div><div class="kicker">THINGS TO EXPERIENCE</div><h3>My Bucket List</h3></div>
+      </div>
+      <form class="add-form" id="bucketForm">
+        <input id="bucketInput" placeholder="Add something you dream of..." maxlength="100" required>
+        <button type="submit">+</button>
+      </form>
+      <div class="task-list" id="bucketList"></div>
+    </section>
+
+    <section class="card affirmation-card">
+      <div class="card-head">
+        <div><div class="kicker">WORDS TO KEEP CLOSE</div><h3>Daily Affirmations</h3></div>
+      </div>
+      <div class="affirmation-message" id="affirmationText">I can take things one step at a time. ♡</div>
+      <button class="soft-button" id="newAffirmation">Another reminder ↻</button>
+      <button class="soft-button" id="affirmationDone">I read this today ✓</button>
+      <p class="note" id="affirmationStatus"></p>
+    </section>
+
+  </div>
+
+  <footer>dear day ♡<p>A little reminder that your day belongs to you.</p></footer>
+</main>
+
+<!-- CUSTOMISATION MODAL -->
+
+<div class="modal" id="customModal">
+  <div class="modal-box">
+    <button class="close-modal" onclick="closeModal('customModal')">×</button>
+    <div class="eyebrow">MAKE IT YOURS</div>
+    <h2>Customisation ✧</h2>
+    <p>Choose the colours that make your space feel like you.</p>
+
+    <h3>Choose your colour</h3>
+    <div class="theme-options" id="themeOptions"></div>
+
+    <h3>Display mode</h3>
+    <div class="mode-options">
+      <button id="brightMode">☀️ Bright</button>
+      <button id="darkMode">🌙 Dark</button>
+    </div>
+
+    <h3>Background style</h3>
+    <select id="backgroundStyle">
+      <option value="soft">Soft plain background</option>
+      <option value="dots">Subtle dotted background</option>
+      <option value="warm">Warm cream background</option>
+    </select>
+
+    <p>Your choices are saved automatically ♡</p>
+    <button class="soft-button" id="resetTheme">↺ Reset to default pink</button>
+  </div>
+</div>
+
+<script>
+/* STORAGE */
+
+function getData(key,fallback) {
+  try {
+    const value=localStorage.getItem("dearday_"+key);
+    return value===null ? fallback : JSON.parse(value);
+  } catch {return fallback}
+}
+function saveData(key,value) {
+  try {localStorage.setItem("dearday_"+key,JSON.stringify(value))}
+  catch {alert("Could not save this item in your browser.")}
+}
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g,char=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[char]);
+}
+function todayKey() {
+  const date=new Date();
+  return [date.getFullYear(),String(date.getMonth()+1).padStart(2,"0"),String(date.getDate()).padStart(2,"0")].join("-");
+}
+
+/* WELCOME */
+
+const today=new Date();
+document.getElementById("todayDate").textContent=today.toLocaleDateString(undefined,{
+  weekday:"long",month:"long",day:"numeric",year:"numeric"
+});
+const hour=today.getHours();
+document.getElementById("greeting").textContent=
+  hour<12?"A BEAUTIFUL MORNING":hour<17?"A LOVELY AFTERNOON":"A PEACEFUL EVENING";
+
+/* CALENDAR */
+
+let currentMonth=new Date(today.getFullYear(),today.getMonth(),1);
+let selectedDate="";
+function renderCalendar() {
+  const year=currentMonth.getFullYear(),month=currentMonth.getMonth();
+  document.getElementById("monthTitle").textContent=currentMonth.toLocaleDateString(undefined,{month:"long",year:"numeric"});
+  const firstDay=new Date(year,month,1).getDay();
+  const totalDays=new Date(year,month+1,0).getDate();
+  const grid=document.getElementById("calendarGrid");
+  grid.innerHTML="";
+  ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(day=>{
+    const el=document.createElement("div");
+    el.className="calendar-day";el.textContent=day;grid.appendChild(el);
+  });
+  for(let i=0;i<firstDay;i++){
+    const blank=document.createElement("div");blank.className="calendar-date empty";grid.appendChild(blank);
+  }
+  for(let day=1;day<=totalDays;day++){
+    const button=document.createElement("button");
+    button.type="button";button.className="calendar-date";button.textContent=day;
+    const key=year+"-"+String(month+1).padStart(2,"0")+"-"+String(day).padStart(2,"0");
+    if(key===todayKey())button.classList.add("today");
+    if(key===selectedDate)button.classList.add("selected");
+    button.addEventListener("click",()=>{selectedDate=key;renderCalendar()});
+    grid.appendChild(button);
+  }
+}
+document.getElementById("prevMonth").addEventListener("click",()=>{
+  currentMonth.setMonth(currentMonth.getMonth()-1);renderCalendar();
+});
+document.getElementById("nextMonth").addEventListener("click",()=>{
+  currentMonth.setMonth(currentMonth.getMonth()+1);renderCalendar();
+});
+renderCalendar();
+
+/* TO DO */
+
+let todos=getData("todos",[]);
+function renderTodos() {
+  const container=document.getElementById("todoList");container.innerHTML="";
+  todos.forEach((item,index)=>{
+    const row=document.createElement("div");
+    row.className="task-row"+(item.done?" done":"");
+    row.innerHTML=`<input type="checkbox" ${item.done?"checked":""}><span>${escapeHTML(item.text)}</span><button class="delete-button">×</button>`;
+    row.querySelector("input").addEventListener("change",()=>{
+      todos[index].done=!todos[index].done;saveData("todos",todos);renderTodos();
+    });
+    row.querySelector("button").addEventListener("click",()=>{
+      todos.splice(index,1);saveData("todos",todos);renderTodos();
+    });
+    container.appendChild(row);
+  });
+  document.getElementById("todoCount").textContent=
+    todos.filter(t=>t.done).length+" of "+todos.length+" tasks completed ♡";
+}
+document.getElementById("todoForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const input=document.getElementById("todoInput"),text=input.value.trim();
+  if(!text)return;
+  todos.push({text,done:false});saveData("todos",todos);input.value="";renderTodos();
+});
+renderTodos();
+
+/* MOOD */
+
+let mood=getData("mood_"+todayKey(),"");
+const moodMessages={
+  Happy:"Keep a little sunshine with you today 😊 ",
+  Calm:"Enjoy this peaceful moment 😌",
+  Okay:"An ordinary day can still be a good day 😐",
+  Tired:"It's okay to take things slowly 😴",
+  Stressed:"One thing at a time. Take a breath 😣"
+};
+function renderMood() {
+  document.querySelectorAll("[data-mood]").forEach(button=>{
+    button.classList.toggle("active",button.dataset.mood===mood);
+  });
+  document.getElementById("moodResult").textContent=
+    mood?moodMessages[mood]:"Every feeling is welcome here.";
+}
+document.querySelectorAll("[data-mood]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    mood=button.dataset.mood;saveData("mood_"+todayKey(),mood);renderMood();
+  });
+});
+renderMood();
+
+/* REMINDERS */
+
+let reminders=getData("reminders",[]);
+function renderReminders() {
+  const container=document.getElementById("reminderList");container.innerHTML="";
+  reminders.forEach((item,index)=>{
+    const row=document.createElement("div");row.className="reminder-row";
+    row.innerHTML=`<span>${escapeHTML(item.text)} ${item.date?"· "+escapeHTML(item.date):""}</span><button class="delete-button">×</button>`;
+    row.querySelector("button").addEventListener("click",()=>{
+      reminders.splice(index,1);saveData("reminders",reminders);renderReminders();
+    });
+    container.appendChild(row);
+  });
+}
+document.getElementById("reminderForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const input=document.getElementById("reminderInput"),text=input.value.trim();
+  if(!text)return;
+  reminders.push({text,date:document.getElementById("reminderDate").value});
+  saveData("reminders",reminders);input.value="";
+  document.getElementById("reminderDate").value="";renderReminders();
+});
+renderReminders();
+
+/* HABITS */
+
+let habits=getData("habits",[
+  {name:"Drink enough water",done:false},
+  {name:"Read a little",done:false},
+  {name:"Take a break",done:false}
+]);
+if(getData("habitDay","")!==todayKey()){
+  habits=habits.map(item=>({...item,done:false}));
+  saveData("habitDay",todayKey());saveData("habits",habits);
+}
+function renderHabits() {
+  const container=document.getElementById("habitList");container.innerHTML="";
+  habits.forEach((item,index)=>{
+    const row=document.createElement("label");
+    row.className="habit-row"+(item.done?" done":"");
+    row.innerHTML=`<input type="checkbox" ${item.done?"checked":""}><span>${escapeHTML(item.name)}</span><button type="button" class="delete-button">×</button>`;
+    row.querySelector("input").addEventListener("change",()=>{
+      habits[index].done=!habits[index].done;saveData("habits",habits);renderHabits();
+    });
+    row.querySelector("button").addEventListener("click",event=>{
+      event.preventDefault();habits.splice(index,1);saveData("habits",habits);renderHabits();
+    });
+    container.appendChild(row);
+  });
+}
+document.getElementById("habitForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const input=document.getElementById("habitInput"),name=input.value.trim();
+  if(!name)return;
+  habits.push({name,done:false});saveData("habits",habits);input.value="";renderHabits();
+});
+renderHabits();
+
+/* EXAM COUNTDOWN */
+
+let exam=getData("exam",{name:"",date:""});
+document.getElementById("examName").value=exam.name;
+document.getElementById("examDate").value=exam.date;
+function renderCountdown() {
+  const number=document.getElementById("countdownNumber");
+  const label=document.getElementById("countdownText");
+  if(!exam.date){number.textContent="—";label.textContent="days to go";return}
+  const todayDate=new Date();todayDate.setHours(0,0,0,0);
+  const target=new Date(exam.date+"T00:00:00");
+  if(Number.isNaN(target.getTime())){number.textContent="—";label.textContent="Choose a valid date";return}
+  const days=Math.round((target-todayDate)/86400000);
+  if(days>0){number.textContent=days;label.textContent="days to go"}
+  else if(days===0){number.textContent="Today!";label.textContent="You've got this ♡"}
+  else{number.textContent="♡";label.textContent="This date has passed"}
+}
+document.getElementById("saveExam").addEventListener("click",()=>{
+  exam={name:document.getElementById("examName").value.trim(),date:document.getElementById("examDate").value};
+  if(!exam.date){alert("Please choose your exam date.");return}
+  saveData("exam",exam);renderCountdown();
+});
+renderCountdown();
+
+/* DIARY */
+
+const diaryField=document.getElementById("diaryEntry");
+diaryField.value=getData("diary","");
+diaryField.addEventListener("input",()=>{
+  saveData("diary",diaryField.value);
+  document.getElementById("diaryStatus").textContent="Saved in this browser ♡";
+});
+
+/* BUCKET LIST */
+
+let bucket=getData("bucket",[]);
+function renderBucket() {
+  const container=document.getElementById("bucketList");container.innerHTML="";
+  bucket.forEach((item,index)=>{
+    const row=document.createElement("div");
+    row.className="task-row"+(item.done?" done":"");
+    row.innerHTML=`<input type="checkbox" ${item.done?"checked":""}><span>${escapeHTML(item.text)}</span><button class="delete-button">×</button>`;
+    row.querySelector("input").addEventListener("change",()=>{
+      bucket[index].done=!bucket[index].done;saveData("bucket",bucket);renderBucket();
+    });
+    row.querySelector("button").addEventListener("click",()=>{
+      bucket.splice(index,1);saveData("bucket",bucket);renderBucket();
+    });
+    container.appendChild(row);
+  });
+}
+document.getElementById("bucketForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const input=document.getElementById("bucketInput"),text=input.value.trim();
+  if(!text)return;
+  bucket.push({text,done:false});saveData("bucket",bucket);input.value="";renderBucket();
+});
+renderBucket();
+
+/* 30 DAILY AFFIRMATIONS */
+
+const affirmations=[
+  "I am allowed to grow at my own pace. ♡",
+  "I deserve kindness, especially from myself.",
+  "My little steps are still progress.",
+  "I can do hard things one step at a time.",
+  "I do not need to have everything figured out.",
+  "I am proud of how far I have come.",
+  "I can learn from mistakes without being defined by them.",
+  "My ideas and dreams matter.",
+  "I deserve moments of peace and happiness.",
+  "I can begin again whenever I need to.",
+  "I am becoming more confident every day.",
+  "I have something special to contribute.",
+  "I can make today meaningful in my own way.",
+  "I am allowed to take breaks.",
+  "I can be both a work in progress and proud of myself.",
+  "I trust myself to keep learning.",
+  "I do not have to compare my journey with anyone else's.",
+  "I can choose progress over perfection.",
+  "I am worthy of good things.",
+  "I can make room for joy in ordinary moments.",
+  "My voice deserves to be heard.",
+  "I can turn challenges into learning experiences.",
+  "I am more capable than I sometimes realise.",
+  "I can be gentle with myself on difficult days.",
+  "I deserve friendships that feel kind and supportive.",
+  "I am allowed to dream big.",
+  "I can celebrate even the smallest wins.",
+  "I bring my own light into the world.",
+  "Every day gives me a chance to learn something new.",
+  "I am enough, exactly as I am. ♡"
+];
+
+let affirmationIndex=getData("affirmationIndex",0)%affirmations.length;
+function showAffirmation() {
+  document.getElementById("affirmationText").textContent=affirmations[affirmationIndex];
+}
+showAffirmation();
+
+document.getElementById("newAffirmation").addEventListener("click",()=>{
+  affirmationIndex=(affirmationIndex+1)%affirmations.length;
+  saveData("affirmationIndex",affirmationIndex);
+  showAffirmation();
+  document.getElementById("affirmationStatus").textContent="";
+});
+document.getElementById("affirmationDone").addEventListener("click",()=>{
+  saveData("affirmationRead",todayKey());
+  document.getElementById("affirmationStatus").textContent="Today's affirmation checked off ♡";
+});
+if(getData("affirmationRead","")===todayKey()){
+  document.getElementById("affirmationStatus").textContent="Today's affirmation checked off ♡";
+}
+
+/* COLOUR CUSTOMISATION */
+
+const palettes=[
+  {name:"Pink",main:"#e98cae",dark:"#bd557d",soft:"#fde8f0",bg:"#fff5f8"},
+  {name:"Rose",main:"#d96b87",dark:"#a83f5d",soft:"#f9e0e7",bg:"#fff3f5"},
+  {name:"Red",main:"#d95d67",dark:"#a93440",soft:"#f9dfe1",bg:"#fff4f3"},
+  {name:"Coral",main:"#ed856e",dark:"#b95543",soft:"#ffe5dc",bg:"#fff6f1"},
+  {name:"Peach",main:"#e9a078",dark:"#ae6944",soft:"#ffeadb",bg:"#fff7ef"},
+  {name:"Orange",main:"#e58a38",dark:"#a95717",soft:"#ffebd3",bg:"#fff7eb"},
+  {name:"Yellow",main:"#d6ad39",dark:"#8d6d13",soft:"#fff2c8",bg:"#fffbee"},
+  {name:"Lemon",main:"#c3b94b",dark:"#77701e",soft:"#f4f0c9",bg:"#fffef0"},
+  {name:"Mint",main:"#66bda1",dark:"#367e68",soft:"#dff5eb",bg:"#f2fcf7"},
+  {name:"Sage",main:"#91a987",dark:"#536e4b",soft:"#e6eee1",bg:"#f6f9f2"},
+  {name:"Green",main:"#58a875",dark:"#347348",soft:"#def1e4",bg:"#f3faf4"},
+  {name:"Teal",main:"#45a9a8",dark:"#287575",soft:"#d9f1ef",bg:"#f1fbfa"},
+  {name:"Sky Blue",main:"#68a9d9",dark:"#3c719f",soft:"#deeffb",bg:"#f2f9ff"},
+  {name:"Blue",main:"#6689d5",dark:"#3e5ca2",soft:"#e2eafb",bg:"#f4f7ff"},
+  {name:"Navy",main:"#536c9e",dark:"#35496f",soft:"#e0e7f4",bg:"#f3f5fa"},
+  {name:"Lavender",main:"#a58bd2",dark:"#70539e",soft:"#eee5fb",bg:"#f8f4ff"},
+  {name:"Purple",main:"#9970bd",dark:"#69458e",soft:"#eee2f8",bg:"#f9f5ff"},
+  {name:"Lilac",main:"#c08cbf",dark:"#885c87",soft:"#f5e5f2",bg:"#fdf5fb"},
+  {name:"Brown",main:"#a77c5e",dark:"#725038",soft:"#eee1d5",bg:"#faf5ef"},
+  {name:"Grey",main:"#87919e",dark:"#56616e",soft:"#e7ebef",bg:"#f6f7f9"}
+];
+
+let selectedColor=getData("theme","Pink");
+let selectedMode=getData("displayMode","bright");
+let selectedBackground=getData("background","soft");
+
+function getPalette() {
+  return palettes.find(p=>p.name===selectedColor)||palettes[0];
+}
+function applyTheme() {
+  const p=getPalette();
+  const root=document.documentElement;
+  const dark=selectedMode==="dark";
+
+  root.style.setProperty("--accent",p.main);
+  root.style.setProperty("--accent-dark",p.dark);
+  root.style.setProperty("--background",dark?"#19171d":p.bg);
+  root.style.setProperty("--surface",dark?"#27232c":"#ffffff");
+  root.style.setProperty("--surface-soft",dark?"#39303d":p.soft);
+  root.style.setProperty("--surface-alt",dark?"#332a37":p.bg);
+  root.style.setProperty("--text",dark?"#f4edf3":"#49343e");
+  root.style.setProperty("--muted",dark?"#c0b2bf":"#806c75");
+  root.style.setProperty("--border",dark?"#49404d":p.soft);
+
+  document.body.classList.toggle("dark",dark);
+  applyBackground();
+
+  document.getElementById("brightMode").classList.toggle("selected",!dark);
+  document.getElementById("darkMode").classList.toggle("selected",dark);
+
+  document.querySelectorAll("[data-theme]").forEach(button=>{
+    button.classList.toggle("selected",button.dataset.theme===selectedColor);
+  });
+
+  saveData("theme",selectedColor);
+  saveData("displayMode",selectedMode);
+}
+function applyBackground() {
+  const body=document.body;
+  body.style.backgroundImage="none";
+  body.style.backgroundSize="auto";
+
+  if(selectedBackground==="dots") {
+    const dot=document.body.classList.contains("dark")?"#514552":getPalette().soft;
+    body.style.backgroundImage=`radial-gradient(${dot} 1px,transparent 1px)`;
+    body.style.backgroundSize="19px 19px";
+  }
+  if(selectedBackground==="warm" && selectedMode==="bright") {
+    document.documentElement.style.setProperty("--background","#fbf5eb");
+  } else {
+    document.documentElement.style.setProperty(
+      "--background",
+      selectedMode==="dark"?"#19171d":getPalette().bg
+    );
+  }
+  saveData("background",selectedBackground);
+}
+function renderThemeOptions() {
+  const container=document.getElementById("themeOptions");
+  container.innerHTML="";
+  palettes.forEach(p=>{
+    const button=document.createElement("button");
+    button.type="button";
+    button.dataset.theme=p.name;
+    button.innerHTML=`<span class="theme-dot" style="background:${p.main}"></span>${p.name}`;
+    button.addEventListener("click",()=>{
+      selectedColor=p.name;
+      applyTheme();
+    });
+    container.appendChild(button);
+  });
+}
+document.getElementById("brightMode").addEventListener("click",()=>{
+  selectedMode="bright";applyTheme();
+});
+document.getElementById("darkMode").addEventListener("click",()=>{
+  selectedMode="dark";applyTheme();
+});
+document.getElementById("backgroundStyle").addEventListener("change",event=>{
+  selectedBackground=event.target.value;applyTheme();
+});
+document.getElementById("resetTheme").addEventListener("click",()=>{
+  selectedColor="Pink";
+  selectedMode="bright";
+  selectedBackground="soft";
+  document.getElementById("backgroundStyle").value="soft";
+  applyTheme();
+});
+renderThemeOptions();
+document.getElementById("backgroundStyle").value=selectedBackground;
+applyTheme();
+
+/* MODALS */
+
+function openModal(id) {
+  document.getElementById(id).classList.add("show");
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove("show");
+}
+document.querySelectorAll(".modal").forEach(modal=>{
+  modal.addEventListener("click",event=>{
+    if(event.target===modal)modal.classList.remove("show");
+  });
+});
+
+/* SIDEBAR OPEN / CLOSE */
+
+const sidebar=document.getElementById("sidebar");
+const main=document.getElementById("main");
+const overlay=document.getElementById("sidebarOverlay");
+
+function openSidebar() {
+  sidebar.classList.remove("closed");
+  sidebar.classList.add("open");
+  main.classList.remove("expanded");
+  if(window.innerWidth<=760)overlay.classList.add("show");
+}
+function closeSidebar() {
+  sidebar.classList.add("closed");
+  sidebar.classList.remove("open");
+  main.classList.add("expanded");
+  overlay.classList.remove("show");
+}
+function toggleSidebar() {
+  const isClosed=sidebar.classList.contains("closed") ||
+    (window.innerWidth<=760 && !sidebar.classList.contains("open"));
+  if(isClosed)openSidebar();
+  else closeSidebar();
+}
+document.getElementById("menuToggle").addEventListener("click",toggleSidebar);
+document.getElementById("sidebarClose").addEventListener("click",closeSidebar);
+overlay.addEventListener("click",closeSidebar);
+
+if(window.innerWidth<=760) {
+  sidebar.classList.add("closed");
+  main.classList.add("expanded");
+}
+window.addEventListener("resize",()=>{
+  if(window.innerWidth>760) {
+    overlay.classList.remove("show");
+    sidebar.classList.remove("open");
+  } else {
+    sidebar.classList.add("closed");
+    main.classList.add("expanded");
+  }
+});
+document.addEventListener("keydown",event=>{
+  if(event.key==="Escape") {
+    closeSidebar();
+    document.querySelectorAll(".modal.show").forEach(modal=>modal.classList.remove("show"));
+  }
+});
+</script>
+<footer class="planner-footer">
+  <p>Created by Pari ♡</p>
+  <p>© 2026 Dear Day</p>
+  <p>Made with a little love by Bloomorae ♡</p>
+</footer>
+
+<style>
+  .planner-footer {
+    text-align: center;
+    padding: 25px 15px;
+    margin-top: 30px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: #987d8c;
+  }
+
+  .planner-footer p {
+    margin: 4px 0;
+  }
+</style>
+</body>
+</html>

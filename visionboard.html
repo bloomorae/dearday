@@ -1,0 +1,909 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dear Day | My Vision Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --pink:#f6cbd8;
+  --deep:#a95777;
+  --ink:#55434b;
+  --cream:#fffaf5;
+  --lavender:#e8ddf5;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:#fff8f8;
+  color:var(--ink);
+  font-family:'DM Sans',sans-serif;
+}
+header {
+  text-align:center;
+  padding:32px 16px 22px;
+  background:linear-gradient(120deg,#ffe4eb,#f1e8ff,#fff2e5);
+  border-bottom:1px solid #f1dce4;
+}
+.logo {
+  font-family:'Playfair Display',serif;
+  font-size:42px;
+  color:#a95777;
+  margin:0;
+}
+.tagline { margin:7px 0 0; color:#92717e; }
+nav {
+  display:flex;
+  justify-content:center;
+  gap:22px;
+  flex-wrap:wrap;
+  padding:14px;
+  background:#fffdfd;
+  border-bottom:1px solid #f2e3e8;
+}
+nav a {
+  color:#98647a;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:700;
+}
+nav a:hover { color:#d47e9e; }
+main { max-width:1250px; margin:auto; padding:25px 18px 60px; }
+.intro { text-align:center; margin:10px auto 28px; }
+h1,h2,h3 { font-family:'Playfair Display',serif; }
+.intro h1 { font-size:34px; margin:0 0 8px; color:#8f526d; }
+.intro p { color:#947c85; margin:0; }
+.section-title {
+  color:#925a73;
+  font-size:25px;
+  margin:30px 0 8px;
+}
+.hint { color:#9b858d; font-size:13px; margin:0 0 15px; }
+.toolbar {
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  align-items:center;
+  margin:15px 0;
+}
+button,select,.upload-label {
+  font-family:inherit;
+  border:1px solid #edcbd8;
+  background:#fff;
+  color:#925a73;
+  border-radius:20px;
+  padding:10px 15px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:700;
+}
+button:hover,.upload-label:hover {
+  background:#fff0f5;
+  transform:translateY(-1px);
+}
+button.primary {
+  background:#bd7894;
+  color:white;
+  border-color:#bd7894;
+}
+button.primary:hover { background:#a96180; }
+button.danger { color:#b85e6f; }
+select { max-width:100%; }
+.upload-label input { display:none; }
+.board-wrap {
+  background:#f6e9ed;
+  padding:15px;
+  border-radius:22px;
+  border:1px solid #edd5df;
+}
+#board {
+  position:relative;
+  width:100%;
+  min-height:610px;
+  overflow:hidden;
+  border:2px dashed #e4c5d1;
+  border-radius:13px;
+  background-color:#fffaf3;
+  background-image:radial-gradient(#e9d9d2 0.8px,transparent 0.8px);
+  background-size:17px 17px;
+  touch-action:pan-y;
+}
+#board.paper { background:#fffaf3; background-image:radial-gradient(#e9d9d2 .8px,transparent .8px); background-size:17px 17px; }
+#board.pink { background:#fff0f4; background-image:linear-gradient(90deg,transparent 97%,#f7dce5 97%),linear-gradient(transparent 97%,#f7dce5 97%); background-size:24px 24px; }
+#board.lavender { background:#f5f0ff; background-image:radial-gradient(#ded1f1 1px,transparent 1px); background-size:18px 18px; }
+#board.plain { background:#fff; background-image:none; }
+#board.vintage { background:#f4e9d7; background-image:repeating-linear-gradient(0deg,transparent,transparent 28px,#e8d8c2 29px); }
+.board-heading {
+  text-align:center;
+  padding:22px 12px 12px;
+  pointer-events:none;
+}
+.board-heading h2 {
+  font-size:30px;
+  color:#a76582;
+  margin:0;
+}
+.board-heading p { font-size:12px; color:#a88b93; margin:5px 0; }
+.board-item {
+  position:absolute;
+  left:40px;
+  top:100px;
+  cursor:grab;
+  user-select:none;
+  touch-action:none;
+  transform-origin:center center;
+}
+.board-item:active { cursor:grabbing; }
+.board-item.selected {
+  outline:2px dashed #bd7894;
+  outline-offset:5px;
+}
+.board-item img {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border:7px solid white;
+  box-shadow:0 4px 13px #6d45501c;
+  pointer-events:none;
+}
+.board-item.photo {
+  width:145px;
+  height:155px;
+  background:white;
+}
+.board-item.sticker {
+  font-size:42px;
+  line-height:1;
+  min-width:35px;
+  min-height:35px;
+  text-align:center;
+}
+.board-item.quote {
+  max-width:230px;
+  min-width:125px;
+  padding:12px 14px;
+  background:#fff0d8;
+  color:#80566a;
+  font-family:'Playfair Display',serif;
+  font-size:18px;
+  text-align:center;
+  line-height:1.35;
+  box-shadow:0 4px 12px #6d45501c;
+  border:1px solid #f0dfc9;
+}
+.board-item.tape {
+  width:90px;
+  height:23px;
+  background:#eebacb99;
+  transform:rotate(-8deg);
+}
+.board-item.note {
+  width:145px;
+  min-height:100px;
+  padding:13px;
+  background:#fff3bd;
+  color:#7e6851;
+  font-family:'Playfair Display',serif;
+  font-size:17px;
+  box-shadow:0 4px 12px #6d45501c;
+}
+#selectedControls {
+  display:none;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+  background:#fff;
+  border:1px solid #f0dce3;
+  padding:12px;
+  border-radius:15px;
+  margin-top:12px;
+}
+#selectedControls.show { display:flex; }
+#selectedControls span { font-size:12px; color:#9b7b88; margin-right:5px; }
+#selectedControls button { padding:8px 12px; }
+.category-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+  gap:12px;
+  margin:15px 0 25px;
+}
+.category-button {
+  background:#fff;
+  border:1px solid #f0dce4;
+  border-radius:15px;
+  padding:14px 10px;
+  text-align:center;
+  color:#93657a;
+  cursor:pointer;
+  font-weight:700;
+}
+.category-button.active {
+  background:#fbe5ed;
+  border-color:#d9a9bd;
+}
+.photo-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(145px,1fr));
+  gap:13px;
+}
+.photo-card {
+  background:white;
+  border:1px solid #f0dce4;
+  border-radius:14px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:.2s;
+}
+.photo-card:hover { transform:translateY(-3px); box-shadow:0 6px 16px #7a4e5b17; }
+.photo-card img { width:100%; height:150px; object-fit:cover; display:block; }
+.photo-card p { margin:0; padding:9px; font-size:12px; color:#92687a; text-align:center; }
+.sticker-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(62px,1fr));
+  gap:9px;
+}
+.sticker-choice {
+  background:#fff;
+  border:1px solid #f1dce4;
+  border-radius:13px;
+  padding:12px 5px;
+  font-size:29px;
+  text-align:center;
+  cursor:pointer;
+}
+.sticker-choice:hover { background:#fff0f5; }
+.quote-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:12px;
+}
+.quote-choice {
+  background:#fff4e8;
+  border:1px solid #f0dfce;
+  border-radius:13px;
+  padding:15px;
+  font-family:'Playfair Display',serif;
+  font-size:17px;
+  text-align:center;
+  color:#805b6b;
+  cursor:pointer;
+  min-height:85px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.quote-choice:hover { background:#ffe9ef; }
+.custom-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:13px; }
+.custom-row input {
+  flex:1;
+  min-width:180px;
+  border:1px solid #edcbd8;
+  border-radius:20px;
+  padding:11px 15px;
+  font:inherit;
+  outline:none;
+}
+footer {
+  text-align:center;
+  padding:25px;
+  color:#a0838e;
+  background:#fff0f4;
+  font-size:13px;
+}
+.small-note { font-size:12px; color:#a18b93; margin-top:10px; }
+@media(max-width:600px) {
+  .logo { font-size:35px; }
+  .intro h1 { font-size:27px; }
+  #board { min-height:540px; }
+  .board-wrap { padding:8px; }
+  .toolbar button,.toolbar select { font-size:12px; padding:9px 12px; }
+}
+@media print {
+  body { background:white; }
+  header,nav,main > .intro,main > section:not(#studio),footer,
+  #selectedControls,.toolbar,.board-wrap + p { display:none !important; }
+  main { padding:0; margin:0; max-width:none; }
+  #studio { display:block !important; }
+  #studio > h2,#studio > .hint { display:none; }
+  .board-wrap { border:0; padding:0; background:white; }
+  #board { min-height:95vh; border:0; border-radius:0; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <p class="logo">Dear Day ♡</p>
+  <p class="tagline">a little place for your biggest dreams</p>
+</header>
+
+<nav>
+  <a href="#studio">MY VISION BOARD</a>
+  <a href="#inspiration">INSPIRATION</a>
+  <a href="#stickers">STICKERS</a>
+  <a href="#quotes">AFFIRMATIONS</a>
+</nav>
+
+<main>
+  <div class="intro">
+    <h1>Dream it. Plan it. Become it. ✨</h1>
+    <p>Collect the little things that remind you of the life you're creating.</p>
+  </div>
+
+  <section id="studio">
+    <h2 class="section-title">♡ My little dream space</h2>
+    <p class="hint">Tap a photo, sticker or quote to add it. Drag things around to create your board!</p>
+
+    <div class="toolbar">
+      <label class="upload-label">＋ Upload my photos
+        <input type="file" id="photoUpload" accept="image/*" multiple>
+      </label>
+      <select id="backgroundChoice" aria-label="Choose board background">
+        <option value="paper">Cream scrapbook</option>
+        <option value="pink">Pink grid</option>
+        <option value="lavender">Lavender dots</option>
+        <option value="plain">Clean white</option>
+        <option value="vintage">Vintage paper</option>
+      </select>
+      <button onclick="saveBoard()">♡ Save board</button>
+      <button onclick="restoreBoard()">↻ Load saved</button>
+      <button onclick="clearBoard()" class="danger">Clear board</button>
+      <button onclick="window.print()" class="primary">Print / Save PDF ✨</button>
+    </div>
+
+    <div class="board-wrap">
+      <div id="board" class="paper">
+        <div class="board-heading">
+          <h2 contenteditable="true">My Dream Life ♡</h2>
+          <p contenteditable="true">little dreams, big plans, endless possibilities</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="selectedControls">
+      <span>Selected item:</span>
+      <button onclick="resizeSelected(1.15)">＋ Bigger</button>
+      <button onclick="resizeSelected(.87)">－ Smaller</button>
+      <button onclick="rotateSelected(-10)">↶ Rotate</button>
+      <button onclick="rotateSelected(10)">↷ Rotate</button>
+      <button onclick="bringForward()">Bring forward</button>
+      <button onclick="deleteSelected()" class="danger">Remove ✕</button>
+    </div>
+    <p class="small-note">Tip: select an item to resize, rotate or remove it. On phones, drag items with your finger.</p>
+  </section>
+
+  <section id="inspiration">
+    <h2 class="section-title">♡ Find your inspiration</h2>
+    <p class="hint">Choose a category and tap any photo to add it to your vision board.</p>
+    <div class="category-grid" id="categoryButtons"></div>
+    <div class="photo-grid" id="photoGrid"></div>
+  </section>
+
+  <section id="stickers">
+    <h2 class="section-title">♡ The sticker corner</h2>
+    <p class="hint">A scrapbook is never complete without cute little details. Tap to add a sticker!</p>
+    <div class="sticker-grid" id="stickerGrid"></div>
+  </section>
+
+  <section id="quotes">
+    <h2 class="section-title">♡ A little reminder</h2>
+    <p class="hint">Choose a quote to decorate your board, or write your own.</p>
+    <div class="quote-grid" id="quoteGrid"></div>
+    <div class="custom-row">
+      <input id="customQuote" placeholder="Write your own affirmation...">
+      <button class="primary" onclick="addCustomQuote()">Add my quote ♡</button>
+    </div>
+    <div class="custom-row">
+      <input id="customNote" placeholder="Write a little note for your future self...">
+      <button onclick="addCustomNote()">Add a note ✨</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  made with love & little dreams · Dear Day ♡
+</footer>
+
+<script>
+const categories = {
+  "Work & Career": {
+    emoji:"💻",
+    photos:[
+      ["Dream desk","photo-1497366754035-f200968a6e72"],
+      ["Creative workspace","photo-1498050108023-c5249f4df085"],
+      ["Office inspiration","photo-1497366216548-37526070297c"],
+      ["Teamwork","photo-1521737711867-e3b97375f902"],
+      ["Work goals","photo-1497366811353-6870744d04b2"]
+    ]
+  },
+  "Study & Academic": {
+    emoji:"📚",
+    photos:[
+      ["Study notes","photo-1434030216411-0b793f4b4173"],
+      ["Journal time","photo-1455390582262-044cdead277a"],
+      ["Study journal","photo-1517842645767-c639042777db"],
+      ["Learning corner","photo-1497633762265-9d179a990aa6"],
+      ["Books & goals","photo-1524995997946-a1c2e315a42f"]
+    ]
+  },
+  "Art & Creativity": {
+    emoji:"🎨",
+    photos:[
+      ["Art studio","photo-1513364776144-60967b0f800f"],
+      ["Creative supplies","photo-1513475382585-d06e58bcb0e0"],
+      ["Painting day","photo-1452860606245-08befc0ff44b"],
+      ["Colourful art","photo-1460661419201-fd4cecdf8a8b"],
+      ["Creative ideas","photo-1513364776144-60967b0f800f"]
+    ]
+  },
+  "Travel & Adventure": {
+    emoji:"✈️",
+    photos:[
+      ["Mountain escape","photo-1464822759023-fed622ff2c3b"],
+      ["Summer adventures","photo-1500530855697-b586d89ba3ee"],
+      ["Dream destination","photo-1476514525535-07fb3b4ae5f1"],
+      ["Beautiful views","photo-1501785888041-af3ef285b470"],
+      ["Peaceful getaway","photo-1470770841072-f978cf4d019e"]
+    ]
+  },
+  "Wellbeing & Yoga": {
+    emoji:"🧘",
+    photos:[
+      ["Slow mornings","photo-1544367567-0f2fcb009e0b"],
+      ["Mindful moments","photo-1506126613408-eca07ce68773"],
+      ["Movement goals","photo-1518611012118-696072aa579a"],
+      ["Peaceful routine","photo-1545205597-3d9d02c29597"],
+      ["Active days","photo-1517836357463-d25dfeac3438"]
+    ]
+  },
+  "Achievements": {
+    emoji:"🏆",
+    photos:[
+      ["Celebrate progress","photo-1531058020387-3be344556be6"],
+      ["Graduation dreams","photo-1523240795612-9a054b0db644"],
+      ["Big milestones","photo-1567427018141-0584cfcbf1b8"],
+      ["New skills","photo-1516321318423-f06f85e504b3"],
+      ["Success mindset","photo-1497366754035-f200968a6e72"]
+    ]
+  },
+  "Dream Room & Home": {
+    emoji:"🕯️",
+    photos:[
+      ["Cozy bedroom","photo-1616486338812-3dadae4b4ace"],
+      ["Soft interiors","photo-1618221195710-dd6b41faaea6"],
+      ["Dream room","photo-1616486029423-aaa4789e8c9a"],
+      ["Pretty home","photo-1600210492486-724fe5c67fb0"],
+      ["Cozy corner","photo-1615874694520-474822394e73"]
+    ]
+  },
+  "Hobbies & Skills": {
+    emoji:"🧶",
+    photos:[
+      ["Creative hobbies","photo-1452860606245-08befc0ff44b"],
+      ["Photography","photo-1452587925148-ce544e77e70d"],
+      ["Music moments","photo-1511379938547-c1f69419868d"],
+      ["Writing goals","photo-1455390582262-044cdead277a"],
+      ["Little projects","photo-1513364776144-60967b0f800f"]
+    ]
+  },
+  "Friendship & Memories": {
+    emoji:"💗",
+    photos:[
+      ["Happy moments","photo-1529156069898-49953e39b3ac"],
+      ["Friendship days","photo-1527529482837-4698179dc6ce"],
+      ["Sweet memories","photo-1511988617509-a57c8a288659"],
+      ["Fun times","photo-1511632765486-a01980e01a18"],
+      ["Together","photo-1528605248644-14dd04022da1"]
+    ]
+  },
+  "Personal Growth": {
+    emoji:"🌷",
+    photos:[
+      ["New beginnings","photo-1490750967868-88aa4486c946"],
+      ["Growing gently","photo-1470252649378-9c29740c9fa8"],
+      ["Fresh starts","photo-1501004318641-b39e6451bec6"],
+      ["Dream bigger","photo-1490730141103-6cac27aaab94"],
+      ["Blooming","photo-1499209974431-9dddcece7f88"]
+    ]
+  },
+  "Books & Learning": {
+    emoji:"📖",
+    photos:[
+      ["Reading time","photo-1507842217343-583bb7270b66"],
+      ["Book collection","photo-1512820790803-83ca734da794"],
+      ["Library goals","photo-1506880018603-83d5b814b5a6"],
+      ["Quiet reading","photo-1519682337058-a94d519337bc"],
+      ["Learning more","photo-1497633762265-9d179a990aa6"]
+    ]
+  },
+  "Nature & Peace": {
+    emoji:"🌿",
+    photos:[
+      ["Garden dreams","photo-1441974231531-c6227db76b6e"],
+      ["Flower fields","photo-1490750967868-88aa4486c946"],
+      ["Ocean calm","photo-1500375592092-40eb2168fd21"],
+      ["Green spaces","photo-1470252649378-9c29740c9fa8"],
+      ["Sunny days","photo-1470071459604-3b5ec3a7fe05"]
+    ]
+  }
+};
+
+const stickers = [
+ "🎀","♡","♥","💗","💕","💖","💞","🌷","🌸","🌼",
+ "🌻","🌺","🪷","🦋","✨","⭐","🌟","☁️","🌙","☀️",
+ "🍓","🍒","🍑","🧸","🐚","🕊️","🪞","🕯️","🪻","🍀",
+ "🌿","💐","🪩","💌","🎧","📚","🩰","🎨","🧁","🍰",
+ "🪄","🫧","🧿","💫","🌈","🪷","🤍","💜","💛","🩷"
+];
+
+const quotes = [
+ "I am becoming the person I dream of being.",
+ "Little steps still move me forward.",
+ "My future is full of beautiful possibilities.",
+ "I can do hard things, one step at a time.",
+ "I am allowed to grow at my own pace.",
+ "Dream big. Start small. Keep going.",
+ "Everything I need to grow is already within me.",
+ "I choose progress over perfection.",
+ "I am creating a life I love.",
+ "Good things take time.",
+ "My ideas deserve a chance.",
+ "I can learn something new every day.",
+ "I am proud of how far I've come.",
+ "I make room for joy and creativity.",
+ "The best is still ahead of me.",
+ "I believe in my own potential.",
+ "One day, my dreams will be my memories.",
+ "I am brave enough to begin.",
+ "My journey is my own.",
+ "I deserve a life filled with meaning.",
+ "Today is a fresh page.",
+ "I will keep showing up for myself.",
+ "Small wins are still wins.",
+ "Let yourself bloom.",
+ "Make it happen, little by little."
+];
+
+const board = document.getElementById("board");
+const photoGrid = document.getElementById("photoGrid");
+const categoryButtons = document.getElementById("categoryButtons");
+const stickerGrid = document.getElementById("stickerGrid");
+const quoteGrid = document.getElementById("quoteGrid");
+const selectedControls = document.getElementById("selectedControls");
+
+let selected = null;
+let zCounter = 5;
+let photoCount = 0;
+
+function photoURL(id) {
+  return `https://images.unsplash.com/${id}?auto=format&fit=crop&w=600&q=85`;
+}
+
+function showCategories() {
+  Object.keys(categories).forEach((name,index) => {
+    const button = document.createElement("button");
+    button.className = "category-button" + (index===0 ? " active" : "");
+    button.textContent = categories[name].emoji + " " + name;
+    button.onclick = () => {
+      document.querySelectorAll(".category-button").forEach(b=>b.classList.remove("active"));
+      button.classList.add("active");
+      showPhotos(name);
+    };
+    categoryButtons.appendChild(button);
+  });
+  showPhotos(Object.keys(categories)[0]);
+}
+
+function showPhotos(category) {
+  photoGrid.innerHTML = "";
+  categories[category].photos.forEach(([label,id]) => {
+    const card = document.createElement("div");
+    card.className = "photo-card";
+    const img = document.createElement("img");
+    img.src = photoURL(id);
+    img.alt = label;
+    img.loading = "lazy";
+    img.onerror = () => { card.style.display="none"; };
+    const caption = document.createElement("p");
+    caption.textContent = label + " ＋";
+    card.append(img,caption);
+    card.onclick = () => addPhoto(photoURL(id),label);
+    photoGrid.appendChild(card);
+  });
+}
+
+function addPhoto(src,label="My photo") {
+  const item = document.createElement("div");
+  item.className = "board-item photo";
+  const img = document.createElement("img");
+  img.src = src;
+  img.alt = label;
+  item.appendChild(img);
+  item.dataset.kind = "photo";
+  item.dataset.src = src;
+  item.style.left = (25 + (photoCount%5)*35) + "px";
+  item.style.top = (100 + (photoCount%6)*30) + "px";
+  item.style.transform = `rotate(${(photoCount%5-2)*3}deg)`;
+  photoCount++;
+  addBoardItem(item);
+}
+
+function addSticker(symbol) {
+  const item = document.createElement("div");
+  item.className = "board-item sticker";
+  item.textContent = symbol;
+  item.dataset.kind = "sticker";
+  item.style.left = (50 + Math.random()*150) + "px";
+  item.style.top = (110 + Math.random()*180) + "px";
+  addBoardItem(item);
+}
+
+function addQuote(text) {
+  const item = document.createElement("div");
+  item.className = "board-item quote";
+  item.textContent = text;
+  item.dataset.kind = "quote";
+  item.style.left = (50 + Math.random()*130) + "px";
+  item.style.top = (130 + Math.random()*180) + "px";
+  addBoardItem(item);
+}
+
+function addNote(text) {
+  const item = document.createElement("div");
+  item.className = "board-item note";
+  item.textContent = text;
+  item.dataset.kind = "note";
+  item.style.left = "80px";
+  item.style.top = "150px";
+  addBoardItem(item);
+}
+
+function addTape() {
+  const item = document.createElement("div");
+  item.className = "board-item tape";
+  item.dataset.kind = "tape";
+  item.style.left = "100px";
+  item.style.top = "120px";
+  addBoardItem(item);
+}
+
+function addBoardItem(item) {
+  item.style.zIndex = ++zCounter;
+  board.appendChild(item);
+  makeDraggable(item);
+  selectItem(item);
+}
+
+function selectItem(item) {
+  if (selected) selected.classList.remove("selected");
+  selected = item;
+  selected.classList.add("selected");
+  selectedControls.classList.add("show");
+}
+
+function makeDraggable(item) {
+  let startX=0,startY=0,originX=0,originY=0,moved=false;
+  item.addEventListener("pointerdown",e=>{
+    if(e.button!==undefined && e.button!==0) return;
+    e.preventDefault();
+    selectItem(item);
+    item.setPointerCapture(e.pointerId);
+    startX=e.clientX;
+    startY=e.clientY;
+    originX=parseFloat(item.style.left)||0;
+    originY=parseFloat(item.style.top)||0;
+    moved=false;
+  });
+  item.addEventListener("pointermove",e=>{
+    if(!item.hasPointerCapture(e.pointerId)) return;
+    const dx=e.clientX-startX;
+    const dy=e.clientY-startY;
+    if(Math.abs(dx)+Math.abs(dy)>3) moved=true;
+    const bounds=board.getBoundingClientRect();
+    const maxX=Math.max(0,bounds.width-item.offsetWidth);
+    const maxY=Math.max(0,bounds.height-item.offsetHeight);
+    item.style.left=Math.max(0,Math.min(maxX,originX+dx))+"px";
+    item.style.top=Math.max(0,Math.min(maxY,originY+dy))+"px";
+  });
+  item.addEventListener("pointerup",e=>{
+    if(item.hasPointerCapture(e.pointerId)) item.releasePointerCapture(e.pointerId);
+  });
+  item.addEventListener("click",()=>selectItem(item));
+}
+
+function resizeSelected(factor) {
+  if(!selected) return;
+  const current=Number(selected.dataset.scale||1);
+  const next=Math.max(.5,Math.min(2.5,current*factor));
+  selected.dataset.scale=next;
+  applyTransform(selected);
+}
+function rotateSelected(degrees) {
+  if(!selected) return;
+  selected.dataset.rotation=(Number(selected.dataset.rotation)||0)+degrees;
+  applyTransform(selected);
+}
+function applyTransform(item) {
+  const rotation=Number(item.dataset.rotation)||0;
+  const scale=Number(item.dataset.scale)||1;
+  item.style.transform=`rotate(${rotation}deg) scale(${scale})`;
+}
+function deleteSelected() {
+  if(!selected) return;
+  selected.remove();
+  selected=null;
+  selectedControls.classList.remove("show");
+}
+function bringForward() {
+  if(!selected) return;
+  selected.style.zIndex=++zCounter;
+}
+function clearBoard() {
+  if(!confirm("Clear everything from your vision board?")) return;
+  document.querySelectorAll("#board .board-item").forEach(item=>item.remove());
+  selected=null;
+  selectedControls.classList.remove("show");
+}
+
+function showStickers() {
+  stickers.forEach(symbol=>{
+    const button=document.createElement("button");
+    button.className="sticker-choice";
+    button.textContent=symbol;
+    button.title="Add "+symbol;
+    button.onclick=()=>addSticker(symbol);
+    stickerGrid.appendChild(button);
+  });
+  const tape=document.createElement("button");
+  tape.className="sticker-choice";
+  tape.textContent="〰️";
+  tape.title="Add washi tape";
+  tape.onclick=addTape;
+  stickerGrid.appendChild(tape);
+}
+
+function showQuotes() {
+  quotes.forEach(text=>{
+    const button=document.createElement("button");
+    button.className="quote-choice";
+    button.textContent="“"+text+"”";
+    button.onclick=()=>addQuote(text);
+    quoteGrid.appendChild(button);
+  });
+}
+
+function addCustomQuote() {
+  const input=document.getElementById("customQuote");
+  const text=input.value.trim();
+  if(!text) return;
+  addQuote(text);
+  input.value="";
+}
+function addCustomNote() {
+  const input=document.getElementById("customNote");
+  const text=input.value.trim();
+  if(!text) return;
+  addNote(text);
+  input.value="";
+}
+
+document.getElementById("photoUpload").addEventListener("change",async function(e) {
+  const files=Array.from(e.target.files||[]);
+  for(const file of files) {
+    if(!file.type.startsWith("image/")) continue;
+    const data=await compressImage(file);
+    addPhoto(data,file.name);
+  }
+  e.target.value="";
+});
+
+function compressImage(file) {
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>{
+      const img=new Image();
+      img.onload=()=>{
+        const canvas=document.createElement("canvas");
+        const max=1000;
+        const ratio=Math.min(1,max/Math.max(img.width,img.height));
+        canvas.width=Math.round(img.width*ratio);
+        canvas.height=Math.round(img.height*ratio);
+        const ctx=canvas.getContext("2d");
+        ctx.drawImage(img,0,0,canvas.width,canvas.height);
+        resolve(canvas.toDataURL("image/jpeg",.78));
+      };
+      img.onerror=reject;
+      img.src=reader.result;
+    };
+    reader.onerror=reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+document.getElementById("backgroundChoice").addEventListener("change",function() {
+  board.className=this.value;
+});
+
+function saveBoard() {
+  const items=Array.from(board.querySelectorAll(".board-item")).map(item=>({
+    kind:item.dataset.kind,
+    text:item.dataset.kind==="photo" ? "" : item.textContent,
+    src:item.dataset.src || (item.querySelector("img")?.src || ""),
+    left:item.style.left,
+    top:item.style.top,
+    transform:item.style.transform,
+    rotation:item.dataset.rotation||0,
+    scale:item.dataset.scale||1,
+    z:item.style.zIndex
+  }));
+  const heading=board.querySelector(".board-heading");
+  const data={
+    items,
+    background:board.className,
+    title:heading.children[0].innerHTML,
+    subtitle:heading.children[1].innerHTML
+  };
+  try {
+    localStorage.setItem("dearDayVisionBoard",JSON.stringify(data));
+    alert("Your vision board has been saved on this device! ♡");
+  } catch(err) {
+    alert("Your board may be too large to save. Try using fewer uploaded photos.");
+  }
+}
+
+function restoreBoard() {
+  const saved=localStorage.getItem("dearDayVisionBoard");
+  if(!saved) {
+    alert("No saved board found yet. Create one and press Save board! ♡");
+    return;
+  }
+  try {
+    const data=JSON.parse(saved);
+    document.querySelectorAll("#board .board-item").forEach(item=>item.remove());
+    board.className=data.background||"paper";
+    document.getElementById("backgroundChoice").value=board.className;
+    const heading=board.querySelector(".board-heading");
+    heading.children[0].innerHTML=data.title||"My Dream Life ♡";
+    heading.children[1].innerHTML=data.subtitle||"little dreams, big plans, endless possibilities";
+    (data.items||[]).forEach(savedItem=>{
+      let item=document.createElement("div");
+      item.className="board-item "+savedItem.kind;
+      item.dataset.kind=savedItem.kind;
+      if(savedItem.kind==="photo") {
+        const img=document.createElement("img");
+        img.src=savedItem.src;
+        item.appendChild(img);
+        item.dataset.src=savedItem.src;
+      } else {
+        item.textContent=savedItem.text;
+      }
+      item.style.left=savedItem.left;
+      item.style.top=savedItem.top;
+      item.style.transform=savedItem.transform;
+      item.dataset.rotation=savedItem.rotation;
+      item.dataset.scale=savedItem.scale;
+      item.style.zIndex=savedItem.z;
+      addBoardItem(item);
+    });
+    if(selected) selected.classList.remove("selected");
+    selected=null;
+    selectedControls.classList.remove("show");
+    alert("Your saved vision board is back! ✨");
+  } catch(err) {
+    alert("Sorry, that saved board could not be opened.");
+  }
+}
+
+showCategories();
+showStickers();
+showQuotes();
+</script>
+</body>
+</html>
+

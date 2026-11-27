@@ -1,0 +1,764 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fff7fb">
+<title>Gratitude Journal | Dear Day</title>
+
+<style>
+:root {
+  --bg: #fff8fb;
+  --paper: #fff;
+  --ink: #574653;
+  --muted: #a18d99;
+  --pink: #e5a6c1;
+  --pink-deep: #b97898;
+  --pink-pale: #fff0f6;
+  --line: #f0dce6;
+  --shadow: 0 12px 32px rgba(145,94,119,.09);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% 0%, #ffedf5 0, transparent 30%),
+    radial-gradient(circle at 95% 35%, #f7efff 0, transparent 25%),
+    var(--bg);
+  color: var(--ink);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+button, input, textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.page {
+  width: min(1040px, 100%);
+  margin: auto;
+  padding: 24px 22px 55px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 34px;
+}
+
+.brand {
+  font: 700 25px Georgia, serif;
+  color: #a86e8b;
+  text-decoration: none;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 15px;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  background: #fff;
+  color: #826779;
+  text-decoration: none;
+  font-size: 12px;
+  box-shadow: 0 4px 13px #9b6e8010;
+}
+
+.hero {
+  text-align: center;
+  max-width: 670px;
+  margin: 0 auto 30px;
+}
+
+.eyebrow {
+  color: var(--pink-deep);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+h1 {
+  font: normal clamp(38px, 6vw, 56px) Georgia, serif;
+  color: #704e62;
+  margin: 12px 0 9px;
+}
+
+.intro {
+  max-width: 550px;
+  margin: auto;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.date-pill {
+  display: inline-block;
+  margin-top: 17px;
+  padding: 8px 15px;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  background: #fff;
+  color: #98788b;
+  font-size: 11px;
+}
+
+.main-card {
+  background: rgba(255,255,255,.92);
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  padding: clamp(19px, 4vw, 34px);
+  box-shadow: var(--shadow);
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 23px;
+}
+
+.section-heading h2,
+.saved-heading h2 {
+  font: normal 25px Georgia, serif;
+  color: #76566a;
+  margin: 0 0 6px;
+}
+
+.section-heading p,
+.saved-heading p {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.flower {
+  font-size: 25px;
+  opacity: .8;
+}
+
+.questions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.question {
+  border: 1px solid var(--line);
+  border-radius: 19px;
+  padding: 17px;
+  background: linear-gradient(145deg, #fffafd, #fff);
+  min-width: 0;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.question:focus-within {
+  border-color: #dfabc2;
+  box-shadow: 0 0 0 3px #fcecf3;
+}
+
+.question.full {
+  grid-column: 1 / -1;
+}
+
+.q-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 11px;
+}
+
+.q-number {
+  width: 29px;
+  height: 29px;
+  flex: 0 0 29px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--pink-pale);
+  color: #b77998;
+  font: 12px Georgia, serif;
+}
+
+.q-title {
+  font: normal 18px/1.4 Georgia, serif;
+  color: #76566a;
+  margin: 0;
+}
+
+.q-hint {
+  font-size: 12px;
+  color: #b09ba7;
+  margin: 0 0 9px 39px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 92px;
+  resize: vertical;
+  border: 1px solid #f2e5eb;
+  border-radius: 13px;
+  padding: 12px 13px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.8;
+  outline: none;
+}
+
+textarea:focus {
+  border-color: #dfa9c1;
+}
+
+textarea::placeholder {
+  color: #c3b2bc;
+}
+
+.question.full textarea {
+  min-height: 110px;
+}
+
+.bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+.save-btn {
+  border: 0;
+  border-radius: 30px;
+  padding: 13px 21px;
+  background: linear-gradient(135deg, #e9b5cc, #d990b1);
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 7px 17px #d99ab744;
+}
+
+.clear-btn {
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  padding: 11px 16px;
+  background: white;
+  color: #94788a;
+  font-size: 13px;
+}
+
+.save-status {
+  font-size: 12px;
+  color: #a18d99;
+}
+
+.saved-section {
+  margin-top: 22px;
+}
+
+.saved-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.count {
+  font-size: 12px;
+  color: #a17e92;
+  background: #fff0f6;
+  border-radius: 20px;
+  padding: 7px 11px;
+  white-space: nowrap;
+}
+
+.saved-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.saved-entry {
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: #fffafd;
+  padding: 15px;
+  min-width: 0;
+}
+
+.saved-entry-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.saved-entry time {
+  font-size: 12px;
+  color: #b1849b;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+}
+
+.saved-entry p {
+  font: 15px/1.6 Georgia, serif;
+  color: #806477;
+  margin: 9px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.entry-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.entry-actions button {
+  border: 0;
+  background: transparent;
+  color: #ae8499;
+  font-size: 12px;
+  padding: 3px;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  border: 1px dashed var(--line);
+  border-radius: 16px;
+  padding: 22px 12px;
+  color: #ad98a4;
+  font-size: 12px;
+}
+
+.footer {
+  text-align: center;
+  color: #b39eaa;
+  font: italic 13px Georgia, serif;
+  margin-top: 28px;
+}
+
+@media(max-width: 650px) {
+  .page {
+    padding: 17px 13px 40px;
+  }
+
+  .topbar {
+    margin-bottom: 27px;
+  }
+
+  .questions {
+    grid-template-columns: 1fr;
+  }
+
+  .question.full {
+    grid-column: auto;
+  }
+
+  .saved-list {
+    grid-template-columns: 1fr;
+  }
+
+  .main-card {
+    border-radius: 21px;
+  }
+
+  .section-heading h2,
+  .saved-heading h2 {
+    font-size: 22px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="brand" href="index.html">dear day ♡</a>
+    <a class="back" href="index.html">← Back to my day</a>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">a little pause to appreciate</div>
+
+    <h1>Gratitude Journal</h1>
+
+    <p class="intro">
+      A gentle place to notice the good around you.
+      Take your time, answer honestly, and remember that
+      even the smallest things are worth appreciating.
+    </p>
+
+    <div class="date-pill" id="todayDate">
+      a new page, just for you ♡
+    </div>
+  </header>
+
+  <main>
+
+    <section class="main-card">
+
+      <div class="section-heading">
+        <div>
+          <h2>Today's little reflections</h2>
+          <p>Seven questions to help you find the lovely in your everyday.</p>
+        </div>
+        <span class="flower">✿</span>
+      </div>
+
+      <form id="gratitudeForm">
+
+        <div class="questions">
+
+          <article class="question">
+            <div class="q-top">
+              <span class="q-number">01</span>
+              <h3 class="q-title">What are three things you're grateful for today?</h3>
+            </div>
+            <p class="q-hint">Little things count, too.</p>
+            <textarea id="answer1" placeholder="I'm grateful for…&#10;I'm grateful for…&#10;I'm grateful for…"></textarea>
+          </article>
+
+          <article class="question">
+            <div class="q-top">
+              <span class="q-number">02</span>
+              <h3 class="q-title">Who made your day a little brighter, and why are you thankful for them?</h3>
+            </div>
+            <p class="q-hint">Think of someone who means something to you.</p>
+            <textarea id="answer2" placeholder="I'm thankful for them because…"></textarea>
+          </article>
+
+          <article class="question">
+            <div class="q-top">
+              <span class="q-number">03</span>
+              <h3 class="q-title">What is one little moment from today that made you smile?</h3>
+            </div>
+            <p class="q-hint">A moment you'd like to keep.</p>
+            <textarea id="answer3" placeholder="One moment I loved was…"></textarea>
+          </article>
+
+          <article class="question">
+            <div class="q-top">
+              <span class="q-number">04</span>
+              <h3 class="q-title">What is something about yourself that you're grateful for?</h3>
+            </div>
+            <p class="q-hint">A quality, a strength, or something you did.</p>
+            <textarea id="answer4" placeholder="I appreciate that I…"></textarea>
+          </article>
+
+          <article class="question">
+            <div class="q-top">
+              <span class="q-number">05</span>
+              <h3 class="q-title">What is something you have today that your past self once wished for?</h3>
+            </div>
+            <p class="q-hint">Notice how far you've come, in your own way.</p>
+            <textarea id="answer5" placeholder="I'm glad I have…"></textarea>
+          </article>
+
+          <article class="question">
+            <div class="q-top">
+              <span class="q-number">06</span>
+              <h3 class="q-title">What challenge or difficult moment taught you something you're thankful to know now?</h3>
+            </div>
+            <p class="q-hint">Only share what feels comfortable.</p>
+            <textarea id="answer6" placeholder="Something I learned was…"></textarea>
+          </article>
+
+          <article class="question full">
+            <div class="q-top">
+              <span class="q-number">07</span>
+              <h3 class="q-title">If you could write a little thank-you note to life today, what would you say?</h3>
+            </div>
+            <p class="q-hint">Let this one come straight from your heart.</p>
+            <textarea id="answer7" placeholder="Dear life, thank you for…"></textarea>
+          </article>
+
+        </div>
+
+        <div class="bottom-row">
+          <div style="display:flex;gap:9px;flex-wrap:wrap">
+            <button class="save-btn" type="submit">Save my gratitude page ♡</button>
+            <button class="clear-btn" type="button" id="clearBtn">Clear answers</button>
+          </div>
+
+          <span class="save-status" id="saveStatus" aria-live="polite">
+            Saved pages stay in this browser.
+          </span>
+        </div>
+
+      </form>
+    </section>
+
+    <section class="main-card saved-section">
+
+      <div class="saved-heading">
+        <div>
+          <h2>Your little collection</h2>
+          <p>All the good things you've taken a moment to notice.</p>
+        </div>
+        <span class="count" id="entryCount">0 pages saved</span>
+      </div>
+
+      <div class="saved-list" id="savedList">
+        <div class="empty">
+          Your gratitude pages will appear here. Start with today's little things ♡
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    slow down · notice the good · keep the little moments ♡
+  </footer>
+
+</div>
+
+<script>
+(() => {
+  const STORAGE_KEY = "dearDayGratitudePages";
+
+  const fieldIds = Array.from(
+    { length: 7 },
+    (_, index) => `answer${index + 1}`
+  );
+
+  const form = document.getElementById("gratitudeForm");
+  const status = document.getElementById("saveStatus");
+  const savedList = document.getElementById("savedList");
+  const entryCount = document.getElementById("entryCount");
+
+  const now = new Date();
+
+  const localToday = new Date(
+    now.getTime() - now.getTimezoneOffset() * 60000
+  ).toISOString().slice(0, 10);
+
+  document.getElementById("todayDate").textContent =
+    now.toLocaleDateString(undefined, {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    }) + " ♡";
+
+  function readPages() {
+    try {
+      const data = JSON.parse(
+        localStorage.getItem(STORAGE_KEY) || "{}"
+      );
+
+      return data && typeof data === "object" && !Array.isArray(data)
+        ? data
+        : {};
+
+    } catch (error) {
+      return {};
+    }
+  }
+
+  let pages = readPages();
+
+  function persist() {
+    try {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(pages)
+      );
+
+      return true;
+
+    } catch (error) {
+      status.textContent =
+        "Couldn't save here. Browser storage may be full.";
+
+      return false;
+    }
+  }
+
+  function fillForm(date) {
+    const page = pages[date];
+
+    fieldIds.forEach((id, index) => {
+      document.getElementById(id).value =
+        page && Array.isArray(page.answers)
+          ? page.answers[index] || ""
+          : "";
+    });
+  }
+
+  function renderEntries() {
+    const dates = Object.keys(pages).sort(
+      (a, b) => b.localeCompare(a)
+    );
+
+    entryCount.textContent =
+      `${dates.length} ${dates.length === 1 ? "page" : "pages"} saved`;
+
+    savedList.innerHTML = "";
+
+    if (dates.length === 0) {
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent =
+        "Your gratitude pages will appear here. Start with today's little things ♡";
+
+      savedList.appendChild(empty);
+      return;
+    }
+
+    dates.forEach(date => {
+      const page = pages[date];
+
+      const card = document.createElement("article");
+      card.className = "saved-entry";
+
+      const head = document.createElement("div");
+      head.className = "saved-entry-head";
+
+      const time = document.createElement("time");
+
+      const parsedDate = new Date(date + "T12:00:00");
+
+      time.textContent = parsedDate.toLocaleDateString(
+        undefined,
+        {
+          month: "short",
+          day: "numeric",
+          year: "numeric"
+        }
+      );
+
+      const actions = document.createElement("div");
+      actions.className = "entry-actions";
+
+      const edit = document.createElement("button");
+      edit.type = "button";
+      edit.textContent = "Edit";
+
+      edit.addEventListener("click", () => {
+        fillForm(date);
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+
+        status.textContent =
+          `Editing your page from ${time.textContent}.`;
+      });
+
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.textContent = "Delete";
+
+      remove.addEventListener("click", () => {
+        if (!window.confirm("Delete this gratitude page?")) {
+          return;
+        }
+
+        delete pages[date];
+        persist();
+        renderEntries();
+
+        if (date === localToday) {
+          fillForm(date);
+        }
+
+        status.textContent = "Page deleted.";
+      });
+
+      actions.append(edit, remove);
+      head.append(time, actions);
+      card.appendChild(head);
+
+      const answers = Array.isArray(page.answers)
+        ? page.answers
+        : [];
+
+      const firstAnswered = answers.find(
+        value => value && value.trim()
+      );
+
+      const preview = document.createElement("p");
+
+      preview.textContent = firstAnswered
+        ? firstAnswered
+        : "A quiet page, saved for later ♡";
+
+      card.appendChild(preview);
+      savedList.appendChild(card);
+    });
+  }
+
+  fillForm(localToday);
+  renderEntries();
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+
+    const answers = fieldIds.map(id =>
+      document.getElementById(id).value.trim()
+    );
+
+    if (!answers.some(Boolean)) {
+      status.textContent =
+        "Write at least one little thing before saving ♡";
+      return;
+    }
+
+    pages[localToday] = {
+      answers,
+      updatedAt: new Date().toISOString()
+    };
+
+    if (persist()) {
+      renderEntries();
+
+      status.textContent =
+        "Your gratitude page is saved. Lovely work ♡";
+    }
+  });
+
+  document.getElementById("clearBtn").addEventListener("click", () => {
+    const hasAnswers = fieldIds.some(id =>
+      document.getElementById(id).value.trim()
+    );
+
+    if (!hasAnswers) return;
+
+    if (!window.confirm("Clear all seven answers on this page?")) {
+      return;
+    }
+
+    fieldIds.forEach(id => {
+      document.getElementById(id).value = "";
+    });
+
+    status.textContent =
+      "Your answers have been cleared from the form.";
+  });
+
+})();
+</script>
+
+</body>
+</html>
+
